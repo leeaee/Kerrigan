@@ -29,7 +29,7 @@
                             <caption>&nbsp;</caption>
                             <thead>
                                 <tr>
-                                    <th style="width: 20px"></th>
+                                    <th></th>
                                     <th>Name</th>
                                     <th>True Name</th>
                                     <th>Phone</th>

@@ -196,6 +196,11 @@ TABLE.data TD {
 }
 
 
+TABLE.data TH:first-child
+{
+    width: 20px;
+}
+
 TABLE.data TD:first-child
 {
     text-align: center;
