@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="adminMapper">
+
+    <select id="findAdmin" parameterType="string" resultMap="adminMap">
+        select a.id, a.name, a.password, a.phone, a.mobile, a.email, a.state, a.description,
+        a.true_name, a.create_time, a.last_modify,
+        r.id as role_id, r.name as role_name, r.description as role_description,
+        r.create_time as role_create_time
+        from admin a
+        left join admin_x_role x on a.id = x.admin_id left join admin_role r on x.role_id = r.id
+        where a.name = #{name}
+    </select>
+
+    <select id="findPermissionsByRoleId" parameterType="long" resultMap="permissionMap">
+        select p.id, p.permission, p.description, p.create_time
+        from admin_role r, admin_role_x_permission x, admin_permission p
+        where r.id = x.role_id and p.id = x.permission_id and r.id = #{id}
+    </select>
+
+    <select id="findPermissionStringsByRoleId" parameterType="long" resultType="string">
+        select p.permission
+        from admin_role r, admin_role_x_permission x, admin_permission p
+        where r.id = x.role_id and p.id = x.permission_id and r.id = #{id}
+    </select>
+
+    <insert id="saveAdmin" parameterType="admin" useGeneratedKeys="true" keyProperty="id">
+        insert into admin (name, password, true_name, phone, mobile,
+        email, state, description, create_time, last_modify) value (#{name}, #{password}, #{trueName}, #{phone}, #{mobile},
+        #{email}, #{state}, #{description}, #{createTime}, #{lastModify})
+    </insert>
+
+    <!-- 更新新用户 -->
+    <update id="updateAdmin" parameterType="admin">
+        update admin
+        <trim prefix="set" suffixOverrides=",">
+            <if test="trueName != null">true_name=#{trueName},</if>
+            <if test="password != null">password=#{password},</if>
+            <if test="phone != null">phone=#{phone},</if>
+            <if test="mobile != null">mobile=#{mobile},</if>
+            <if test="email != null">email=#{email},</if>
+            <if test="state != null">state=#{state},</if>
+            <if test="description != null">description=#{description},</if>
+            <if test="createTime != null">create_time=#{createTime},</if>
+            <if test="lastModify != null">last_modify=#{lastModify}</if>
+        </trim>
+        where name = #{name}
+    </update>
+
+    <delete id="removeAdmin" parameterType="string">
+        delete from admin where name = #{name}
+    </delete>
+
+    <select id="findRole" parameterType="string" resultType="role">
+        select ar.id, ar.name, ar.description, ar.create_time as createTime
+        from admin_role ar
+        where ar.name = #{name}
+    </select>
+
+    <insert id="saveAdminXRole" parameterType="list">
+        insert into admin_x_role (admin_id, role_id) values
+        <foreach collection="list" index="index" item="map" open="" close="" separator=",">
+            (#{map.adminId}, #{map.roleId})
+        </foreach>
+    </insert>
+
+    <delete id="deleteAdminXRole" parameterType="long">
+        delete from admin_x_role where admin_id = #{id}
+    </delete>
+
+    <resultMap id="adminMap" type="admin">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="password" column="password"/>
+        <result property="trueName" column="true_name"/>
+        <result property="phone" column="phone"/>
+        <result property="mobile" column="mobile"/>
+        <result property="email" column="email"/>
+        <result property="state" column="state"/>
+        <result property="description" column="description"/>
+        <result property="createTime" column="create_time"/>
+        <result property="lastModify" column="last_modify"/>
+        <collection property="roles" javaType="role">
+            <result property="id" column="role_id"/>
+            <result property="name" column="role_name"/>
+            <result property="description" column="role_description"/>
+            <result property="createTime" column="role_create_time"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="permissionMap" type="permission">
+        <result property="id" column="id"/>
+        <result property="permission" column="permission"/>
+        <result property="description" column="description"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+</mapper> 
