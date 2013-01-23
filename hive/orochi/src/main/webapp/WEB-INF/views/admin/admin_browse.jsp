@@ -4,9 +4,9 @@
 
                 <div class="span10">
                     <ul class="breadcrumb">
-                        <li><a href="${ctx}">System</a> <span class="divider">/</span></li>
-                        <li><a href="${ctx}/admin">Admin</a> <span class="divider">/</span></li>
-                        <li class="active">Browse</li>
+                        <li><a href="${ctx}"><fmt:message key="breadcrumb.system"/></a> <span class="divider">/</span></li>
+                        <li><a href="${ctx}/admin"><fmt:message key="breadcrumb.admin"/></a> <span class="divider">/</span></li>
+                        <li class="active"><fmt:message key="breadcrumb.browse"/></li>
                     </ul>
                     <c:if test="${not empty message}">
                         <div id="message" class="alert alert-success"><button data-dismiss="alert" class="close">×</button>${message}</div>
@@ -17,7 +17,7 @@
                     <form id="adminListForm" name="adminListForm" action="${ctx}/admin/browse" method="get">
                         <div class="input-append">
                             <input id="search_name" type="text" name="search_name" class="input-small" placeholder="Name" maxlength="31" value="${params.name}"/>
-                            <input type="submit" id="search" value="Search" class="btn"/>
+                            <input type="submit" id="search" value="<fmt:message key="act.search"/>" class="btn"/>
                             <shiro:hasPermission name="admin:change">
                                 <input type="button" id="create" value="Create" class="btn" onclick="redirect('${ctx}/admin/create/form', null)"/>
                                 <input type="button" id="edit" value="Edit" class="btn sbtn" onclick="redirect('${ctx}/admin/update', getCheckedValues('name')[0])"/>
@@ -29,7 +29,7 @@
                             <caption>&nbsp;</caption>
                             <thead>
                                 <tr>
-                                    <th style="width: 20px;"></th>
+                                    <th style="width: 20px"></th>
                                     <th>Name</th>
                                     <th>True Name</th>
                                     <th>Phone</th>

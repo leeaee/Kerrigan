@@ -172,7 +172,7 @@ public class Servlets
                 }
                 else
                 {
-                    params.put(unprefixed, values[0]);
+                    params.put(unprefixed, values[0].trim());
                 }
             }
         }
