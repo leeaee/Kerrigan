@@ -1,0 +1,1 @@
+A prototype of legend
