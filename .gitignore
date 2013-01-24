@@ -2,6 +2,7 @@
 *.iml
 
 hive/.idea/
+hive/mamba/target/
 hive/naga/target/
 hive/orochi/target/
 hive/taipan/target/
