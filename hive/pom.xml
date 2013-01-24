@@ -14,6 +14,7 @@
         <module>taipan</module>
         <module>mamba</module>
         <module>orochi</module>
+        <module>naga</module>
     </modules>
 
     <properties>
