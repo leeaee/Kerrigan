@@ -4,9 +4,11 @@
 <configuration>
 
     <typeAliases>
-        <typeAlias alias="admin" type="com.modoop.zerg.orochi.entity.admin.Admin"/>
-        <typeAlias alias="role" type="com.modoop.zerg.orochi.entity.admin.Role"/>
-        <typeAlias alias="permission" type="com.modoop.zerg.orochi.entity.admin.Permission"/>
+        <typeAlias alias="category" type="com.modoop.zerg.orochi.entity.Category" />
+        <typeAlias alias="product" type="com.modoop.zerg.orochi.entity.Product" />
+        <typeAlias alias="admin" type="com.modoop.zerg.orochi.entity.admin.Admin" />
+        <typeAlias alias="role" type="com.modoop.zerg.orochi.entity.admin.Role" />
+        <typeAlias alias="permission" type="com.modoop.zerg.orochi.entity.admin.Permission" />
     </typeAliases>
 
 </configuration>

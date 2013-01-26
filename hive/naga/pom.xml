@@ -19,6 +19,10 @@
             <groupId>com.modoop.zerg</groupId>
             <artifactId>zerg-taipan</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.modoop.zerg</groupId>
+            <artifactId>zerg-orochi</artifactId>
+        </dependency>
         <!-- springframework -->
         <dependency>
             <groupId>org.springframework</groupId>

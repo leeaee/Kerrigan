@@ -1,60 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
        xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
             http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
             http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:component-scan base-package="com.modoop.zerg.orochi.controller" use-default-filters="false">
-        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
     </context:component-scan>
 
-    <mvc:annotation-driven/>
+    <mvc:annotation-driven />
     <!-- 将无法mapping到Controller的path交给default servlet handler处理 -->
-    <mvc:default-servlet-handler/>
+    <mvc:default-servlet-handler />
 
-    <mvc:resources mapping="/static/**" location="/static/"/>
+    <mvc:resources mapping="/static/**" location="/static/" />
 
     <!-- 定义无Controller的path<->view直接映射 -->
-    <mvc:view-controller path="/" view-name="index"/>
+    <mvc:view-controller path="/" view-name="index" />
 
     <!-- JSP configuration -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-        <property name="prefix" value="/WEB-INF/views/"/>
-        <property name="suffix" value=".jsp"/>
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+        <property name="prefix" value="/WEB-INF/views/" />
+        <property name="suffix" value=".jsp" />
     </bean>
 
     <!-- I18n configuration -->
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
-        <property name="cookieName" value="locale-language-setting"/>
+        <property name="cookieName" value="locale-language-setting" />
         <!-- in seconds. If set to -1, the cookie is not persisted (deleted when browser shuts down) -->
-        <property name="cookieMaxAge" value="604800"/>
+        <property name="cookieMaxAge" value="604800" />
     </bean>
-    
-    <mvc:interceptors> 
+
+    <mvc:interceptors>
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
-            <property name="paramName" value="lang"/>
+            <property name="paramName" value="lang" />
         </bean>
-    </mvc:interceptors> 
+    </mvc:interceptors>
 
     <!-- 国际化设置 -->
-    <bean class="com.modoop.zerg.taipan.core.i18n.I18NDictionary" p:messageSource-ref="messageSource"/>
+    <bean class="com.modoop.zerg.taipan.core.i18n.I18NDictionary" p:messageSource-ref="messageSource" />
 
     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-        <property name="basename" value="classpath:lang/lang_resource"/>
-        <property name="useCodeAsDefaultMessage" value="true"/>
-        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="basename" value="classpath:lang/lang_resource" />
+        <property name="useCodeAsDefaultMessage" value="true" />
+        <property name="defaultEncoding" value="UTF-8" />
     </bean>
 
     <!-- 支持 Shiro对Controller的方法级AOP安全控制 -->
-    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor">
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+          depends-on="lifecycleBeanPostProcessor">
         <property name="proxyTargetClass" value="true" />
     </bean>
 
     <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
-        <property name="securityManager" ref="securityManager"/>
+        <property name="securityManager" ref="securityManager" />
     </bean>
 
     <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
@@ -65,5 +67,4 @@
             </props>
         </property>
     </bean>
-
 </beans>

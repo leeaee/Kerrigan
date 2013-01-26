@@ -1,6 +1,5 @@
 package com.modoop.zerg.orochi.service;
 
-import com.google.common.collect.Maps;
 import com.modoop.zerg.orochi.cache.MemcachedObjectType;
 import com.modoop.zerg.orochi.entity.admin.Admin;
 import com.modoop.zerg.orochi.entity.admin.Role;
@@ -17,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
