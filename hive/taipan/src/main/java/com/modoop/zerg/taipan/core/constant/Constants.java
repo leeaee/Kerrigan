@@ -6,5 +6,7 @@ package com.modoop.zerg.taipan.core.constant;
  */
 public final class Constants
 {
-    public static final String NS = "http://zerg.nsn.com/mamba";
+    public static final String NS = "http://www.mopdoop.com/zerg";
+
+    public static final String QUERY_PAGE_INDEX = "page.pageIndex";
 } // end class

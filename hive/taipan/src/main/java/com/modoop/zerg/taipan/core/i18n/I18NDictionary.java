@@ -1,6 +1,6 @@
 package com.modoop.zerg.taipan.core.i18n;
 
-import com.modoop.zerg.taipan.core.util.StringUtils;
+import com.modoop.zerg.taipan.core.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
@@ -198,9 +198,9 @@ public class I18NDictionary
                 if (params[i] instanceof String)
                 {
                     String param = (String) params[i];
-                    if (StringUtils.isQuotedWithBraces(param))
+                    if (Strings.isQuotedWithBraces(param))
                     {
-                        tempParams[i] = getMessage(StringUtils.trimBraces(param), locale);
+                        tempParams[i] = getMessage(Strings.trimBraces(param), locale);
                     }
                     else
                     {

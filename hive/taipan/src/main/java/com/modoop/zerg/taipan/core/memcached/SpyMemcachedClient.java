@@ -1,6 +1,6 @@
 package com.modoop.zerg.taipan.core.memcached;
 
-import com.modoop.zerg.taipan.core.util.StringUtils;
+import com.modoop.zerg.taipan.core.util.Strings;
 import net.spy.memcached.MemcachedClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +36,7 @@ public class SpyMemcachedClient implements DisposableBean
     {
         try
         {
-            if (!StringUtils.isEmpty(key))
+            if (!Strings.isEmpty(key))
             {
                 logger.debug("get object for key {}", key);
                 return (T) memcachedClient.get(key);
@@ -67,7 +67,7 @@ public class SpyMemcachedClient implements DisposableBean
         }
         catch (RuntimeException e)
         {
-            handleException(e, StringUtils.join(keys, ","));
+            handleException(e, Strings.join(keys, ","));
             return null;
         }
     }
@@ -77,7 +77,7 @@ public class SpyMemcachedClient implements DisposableBean
      */
     public void set(String key, Object value, int expiration)
     {
-        if (!StringUtils.isEmpty(key) && value != null)
+        if (!Strings.isEmpty(key) && value != null)
         {
             memcachedClient.set(key, expiration, value);
             logger.debug("set {} value for {} seconds", key, expiration);
@@ -93,7 +93,7 @@ public class SpyMemcachedClient implements DisposableBean
      */
     public boolean safeSet(String key, Object value, int expiration)
     {
-        if (!StringUtils.isEmpty(key) && value != null)
+        if (!Strings.isEmpty(key) && value != null)
         {
             Future<Boolean> future = memcachedClient.set(key, expiration, value);
             try
@@ -120,12 +120,12 @@ public class SpyMemcachedClient implements DisposableBean
     {
         try
         {
-            if (!StringUtils.isEmpty(key) && value != null)
+            if (!Strings.isEmpty(key) && value != null)
             {
                 if (memcachedClient.get(key) != null)
                 {
                     memcachedClient.replace(key, expiration, value);
-                    logger.debug("replace {} valuefor {} seconds", key, expiration);
+                    logger.debug("replace {} value for {} seconds", key, expiration);
                 }
                 else
                 {
@@ -148,7 +148,7 @@ public class SpyMemcachedClient implements DisposableBean
      */
     public void delete(String key)
     {
-        if (!StringUtils.isEmpty(key))
+        if (!Strings.isEmpty(key))
         {
             memcachedClient.delete(key);
             logger.debug("delete {} value", key);
@@ -160,7 +160,7 @@ public class SpyMemcachedClient implements DisposableBean
      */
     public boolean safeDelete(String key)
     {
-        if (!StringUtils.isEmpty(key))
+        if (!Strings.isEmpty(key))
         {
             Future<Boolean> future = memcachedClient.delete(key);
             try

@@ -196,15 +196,9 @@ TABLE.data TD {
 }
 
 
-TABLE.data TH:first-child
+TABLE.data TH:last-child
 {
-    width: 20px;
-}
-
-TABLE.data TD:first-child
-{
-    text-align: center;
-    padding: 7px 0 9px;
+    width: 70px;
 }
 
 .form-horizontal

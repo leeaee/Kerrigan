@@ -1,9 +1,9 @@
 package com.modoop.zerg.orochi.realm;
 
-import com.modoop.zerg.orochi.cache.MemcachedObjectType;
 import com.modoop.zerg.orochi.entity.admin.Admin;
 import com.modoop.zerg.orochi.entity.admin.Role;
 import com.modoop.zerg.orochi.service.dao.AdminShiroDao;
+import com.modoop.zerg.taipan.core.shiro.ShiroMemcachedObjectType;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -25,6 +25,9 @@ public class ShiroDbRealm extends AuthorizingRealm
     private static final String ALGORITHM = "MD5";
     private AdminShiroDao adminShiroDao;
 
+    /**
+     * 认证回调函数,登录时调用.
+     */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException
     {
@@ -44,12 +47,13 @@ public class ShiroDbRealm extends AuthorizingRealm
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals)
     {
-        String username = (String) principals.fromRealm(getName()).iterator().next();
+        String username = (String) principals.getPrimaryPrincipal();
         Admin admin = adminShiroDao.findLoginAdmin(username);
         List<Role> roles = admin.getRoles();
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         for (Role role : roles)
         {
+            info.addRole(role.getName());
             List<String> permissions = adminShiroDao.findPermissionStringsByRoleId(role.getId());
             info.addStringPermissions(permissions);
         }
@@ -59,13 +63,7 @@ public class ShiroDbRealm extends AuthorizingRealm
     @Override
     protected Object getAuthorizationCacheKey(PrincipalCollection principals)
     {
-        return MemcachedObjectType.SHIRO_AUTHORIZATION.getPrefix() + principals;
-    }
-
-    @Override
-    protected Object getAuthenticationCacheKey(AuthenticationToken token)
-    {
-        return token != null ? MemcachedObjectType.SHIRO_AUTHENTICATION.getPrefix() + token.getPrincipal() : null;
+        return ShiroMemcachedObjectType.SHIRO_AUTH.getPrefix() + principals;
     }
 
     @PostConstruct

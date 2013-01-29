@@ -5,12 +5,21 @@
 
                 <div class="span10">
                     <ul class="breadcrumb">
-                        <li><a href="${ctx}">System</a> <span class="divider">/</span></li>
-                        <li><a href="${ctx}/admin">Admin</a> <span class="divider">/</span></li>
-                        <li class="active">Detail</li>
+                        <li><a href="${ctx}"><fmt:message key="breadcrumb.system"/></a> <span class="divider">/</span></li>
+                        <li><a href="${ctx}/admin"><fmt:message key="breadcrumb.admin"/></a> <span class="divider">/</span></li>
+                        <li class="active"><fmt:message key="breadcrumb.detail"/></li>
                     </ul>
-                    <form id="adminCreateForm" action="${ctx}/admin/detail" method="post" class="form-horizontal">
-                        <input type="hidden" name="name" value="${admin.name}"/>
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="javascript:void(0)"><fmt:message key="breadcrumb.detail"/></a>
+                        </li>
+                        <shiro:hasPermission name="admin:change">
+                        <li>
+                            <a id="create" href="${ctx}/admin/create/form"><fmt:message key="breadcrumb.create"/></a>
+                        </li>
+                        </shiro:hasPermission>
+                    </ul>
+                    <div class="form-horizontal">
                         <fieldset>
                             <legend><small class="form-head">Administrator</small></legend>
                             <div class="control-group">
@@ -38,19 +47,27 @@
                                 <div class="controls align">${admin.roleNames}</div>
                             </div>
                             <div class="control-group">
+                                <label class="control-label">Last Modify</label>
+                                <div class="controls align"><html:joda pattern="yyyy-MM-dd hh:mm" value="${admin.lastModify}"/></div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Create Time</label>
+                                <div class="controls align"><html:joda pattern="yyyy-MM-dd hh:mm" value="${admin.createTime}"/></div>
+                            </div>
+                            <div class="control-group">
                                 <label class="control-label">Description</label>
                                 <div class="controls align">${admin.description}</div>
                             </div>
                             <div class="form-actions form-foot">
                                 <div class="btn-group">
                                     <shiro:hasPermission name="admin:change">
-                                    <input type="button" id="edit" value="Edit" class="btn" onclick="redirect('${ctx}/admin/update', '${admin.name}')" />
-                                    <input type="button" id="delete" value="Delete" class="btn" onclick="confirmSubmit(this.form, '${ctx}/admin/delete', 'post', 'Are you sure?')"/>
+                                    <input type="button" id="edit" value="Edit" class="btn" onclick="redirect('${ctx}/admin/update/${admin.name}')" />
+                                    <input type="button" id="delete" value="Delete" class="btn" onclick="confirmRedirect('${ctx}/admin/delete/${admin.name}', 'Are you sure?')"/>
                                     </shiro:hasPermission>
-                                    <input type="button" class="btn" value="Back" onclick="window.history.back()"/>
+                                    <input type="button" class="btn" value="Back" onclick="back()"/>
                                 </div>
                             </div>
                         </fieldset>
-                    </form>
+                    </div>
                 </div>
 <%@ include file="../inc/footer.inc.jsp" %>

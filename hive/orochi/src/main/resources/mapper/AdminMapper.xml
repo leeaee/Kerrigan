@@ -35,6 +35,16 @@
         from admin <include refid="searchCondition" />
     </select>
 
+    <select id="getAdmin" parameterType="long" resultMap="adminMap">
+        select a.id, a.name, a.password, a.phone, a.mobile, a.email, a.state, a.description,
+        a.true_name, a.create_time, a.last_modify,
+        r.id as role_id, r.name as role_name, r.description as role_description,
+        r.create_time as role_create_time
+        from admin a
+        left join admin_x_role x on a.id = x.admin_id left join admin_role r on x.role_id = r.id
+        where a.id = #{id}
+    </select>
+
     <select id="findAdmin" parameterType="string" resultMap="adminMap">
         select a.id, a.name, a.password, a.phone, a.mobile, a.email, a.state, a.description,
         a.true_name, a.create_time, a.last_modify,
@@ -79,6 +89,10 @@
         </trim>
         where name = #{name}
     </update>
+
+    <delete id="deleteAdmin" parameterType="long">
+        delete from admin where id = #{id}
+    </delete>
 
     <delete id="removeAdmin" parameterType="string">
         delete from admin where name = #{name}

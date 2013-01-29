@@ -6,18 +6,19 @@
 
     <!-- SpyMemcached客户端配置 -->
     <bean id="spyMemcachedClient" class="com.modoop.zerg.taipan.core.memcached.SpyMemcachedClient">
-        <property name="memcachedClient" ref="memcachedClient" />
-        <property name="updateTimeout" value="1000" />
-        <property name="shutdownTimeout" value="1000" />
+        <property name="memcachedClient" ref="memcachedClient"/>
+        <property name="updateTimeout" value="1000"/>
+        <property name="shutdownTimeout" value="1000"/>
     </bean>
 
     <bean id="memcachedClient" class="net.spy.memcached.spring.MemcachedClientFactoryBean">
-        <property name="servers" value="${memcached.servers}" />
-        <property name="protocol" value="${memcached.protocol}" />
-        <property name="locatorType" value="${memcached.locatorType}" />
-        <property name="opTimeout" value="${memcached.opTimeout}" />
+        <property name="servers" value="${memcached.servers}"/>
+        <property name="protocol" value="${memcached.protocol}"/>
+        <property name="locatorType" value="${memcached.locatorType}"/>
+        <property name="opTimeout" value="${memcached.opTimeout}"/>
         <property name="hashAlg">
             <value type="net.spy.memcached.DefaultHashAlgorithm">KETAMA_HASH</value>
         </property>
     </bean>
+
 </beans>

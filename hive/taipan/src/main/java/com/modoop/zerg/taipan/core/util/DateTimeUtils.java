@@ -180,13 +180,13 @@ public class DateTimeUtils
      */
     public static long getTime(String year, String month, String day)
     {
-        if (StringUtils.isEmpty(year))
+        if (Strings.isEmpty(year))
         {
             return TIME_OF_NA;
         }
         else
         {
-            DateTime dateTime = new DateTime(Integer.parseInt(year), (StringUtils.isEmpty(month) ? 0 : Integer.parseInt(month)), (StringUtils.isEmpty(day) ? 0 : Integer.parseInt(day)), 0, 0);
+            DateTime dateTime = new DateTime(Integer.parseInt(year), (Strings.isEmpty(month) ? 0 : Integer.parseInt(month)), (Strings.isEmpty(day) ? 0 : Integer.parseInt(day)), 0, 0);
 
             return dateTime.getMillis();
         }

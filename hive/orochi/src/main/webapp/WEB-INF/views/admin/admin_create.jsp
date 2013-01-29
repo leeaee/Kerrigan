@@ -5,11 +5,21 @@
 
                 <div class="span10">
                     <ul class="breadcrumb">
-                        <li><a href="${ctx}">System</a> <span class="divider">/</span></li>
-                        <li><a href="${ctx}/admin">Admin</a> <span class="divider">/</span></li>
-                        <li class="active">Create</li>
+                        <li><a href="${ctx}"><fmt:message key="breadcrumb.system"/></a> <span class="divider">/</span></li>
+                        <li><a href="${ctx}/admin"><fmt:message key="breadcrumb.admin"/></a> <span class="divider">/</span></li>
+                        <li class="active"><fmt:message key="breadcrumb.create"/></li>
                     </ul>
-                    <form id="adminCreateForm" action="${ctx}/admin/create" method="post" class="form-horizontal">
+                    <ul class="nav nav-tabs">
+                        <li>
+                            <a href="${ctx}/admin/browse"><fmt:message key="breadcrumb.browse"/></a>
+                        </li>
+                        <shiro:hasPermission name="admin:change">
+                        <li class="active">
+                            <a id="create" href="javascript:void(0)"><fmt:message key="breadcrumb.create"/></a>
+                        </li>
+                        </shiro:hasPermission>
+                    </ul>
+                    <form id="form-create" action="${ctx}/admin/create" method="post" class="form-horizontal">
                         <fieldset>
                             <legend><small class="form-head">Administrator</small></legend>
                             <div class="control-group">

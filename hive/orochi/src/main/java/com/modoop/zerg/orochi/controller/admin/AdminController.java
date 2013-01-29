@@ -7,7 +7,7 @@ import com.modoop.zerg.orochi.exception.EntityNotFoundException;
 import com.modoop.zerg.orochi.service.AdminService;
 import com.modoop.zerg.taipan.core.jersey.JerseyException;
 import com.modoop.zerg.taipan.core.mapper.JsonMapper;
-import com.modoop.zerg.taipan.core.web.servlet.Servlets;
+import com.modoop.zerg.taipan.core.util.Servlets;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +28,7 @@ public class AdminController
 {
     private static Logger logger = LoggerFactory.getLogger(AdminController.class);
     private AdminService adminService;
-    
+
     /**
      * 管理员浏览
      */
@@ -39,7 +39,7 @@ public class AdminController
         Map<String, Object> parameters = Servlets.getParametersStartingWith(request, "search_");
         logger.debug("search parameters: {}", JsonMapper.buildNonDefaultMapper().toJson(parameters));
         model.addAttribute("params", parameters);
-        model.addAttribute("page", adminService.readAdmins(parameters));
+        model.addAttribute("page", adminService.searchAdmins(parameters));
         return "admin/admin_browse";
     }
 
@@ -76,7 +76,7 @@ public class AdminController
         adminService.createAdmin(admin);
 
         redirectAttributes.addFlashAttribute("message", "Save administrator successfully.");
-        return "redirect:browse";
+        return "redirect:/admin/browse";
     }
 
     /**
@@ -106,34 +106,31 @@ public class AdminController
         adminService.updateAdmin(admin);
 
         redirectAttributes.addFlashAttribute("message", "Update administrator successfully.");
-        return "redirect:browse";
+        return "redirect:/admin/browse";
     }
 
     @RequiresPermissions("admin:change")
-    @RequestMapping(value = "delete", method = RequestMethod.POST)
-    public String onDelete(@RequestParam(value = "name") List<String> names, RedirectAttributes redirectAttributes, Principal principal)
+    @RequestMapping(value = "delete/{name}", method = RequestMethod.GET)
+    public String delete(@PathVariable("name") String name, RedirectAttributes redirectAttributes, Principal principal)
     {
-        logger.debug("Delete admins: {}", names);
-        for (String name : names)
+        logger.debug("Delete admin: {}", name);
+        if (principal.getName().equals(name))
         {
-            if (principal.getName().equals(name))
-            {
-                redirectAttributes.addFlashAttribute("error", "Could not delete administrator self.");
-                return "redirect:browse";
-            }
-            try
-            {
-                adminService.deleteAdmin(name);
-            }
-            catch (JerseyException e)
-            {
-                redirectAttributes.addFlashAttribute("error", "Could not delete administrator: " + e.getMessage());
-                return "redirect:browse";
-            }
+            redirectAttributes.addFlashAttribute("error", "Could not delete administrator self.");
+            return "redirect:/admin/browse";
+        }
+        try
+        {
+            adminService.deleteAdmin(name);
+        }
+        catch (JerseyException e)
+        {
+            redirectAttributes.addFlashAttribute("error", "Could not delete administrator: " + e.getMessage());
+            return "redirect:/admin/browse";
         }
 
         redirectAttributes.addFlashAttribute("message", "Delete administrator successfully.");
-        return "redirect:browse";
+        return "redirect:/admin/browse";
     }
 
     @Autowired

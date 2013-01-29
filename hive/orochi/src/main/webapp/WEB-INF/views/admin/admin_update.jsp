@@ -5,11 +5,19 @@
 
                 <div class="span10">
                     <ul class="breadcrumb">
-                        <li><a href="${ctx}">System</a> <span class="divider">/</span></li>
-                        <li><a href="${ctx}/admin">Admin</a> <span class="divider">/</span></li>
-                        <li class="active">Edit</li>
+                        <li><a href="${ctx}"><fmt:message key="breadcrumb.system"/></a> <span class="divider">/</span></li>
+                        <li><a href="${ctx}/admin"><fmt:message key="breadcrumb.admin"/></a> <span class="divider">/</span></li>
+                        <li class="active"><fmt:message key="breadcrumb.edit"/></li>
                     </ul>
-                    <form id="adminCreateForm" action="${ctx}/admin/update" method="post" class="form-horizontal">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="javascript:void(0)"><fmt:message key="breadcrumb.edit"/></a>
+                        </li>
+                        <li>
+                            <a id="create" href="${ctx}/admin/create/form"><fmt:message key="breadcrumb.create"/></a>
+                        </li>
+                    </ul>
+                    <form id="form-update" action="${ctx}/admin/update" method="post" class="form-horizontal">
                         <input type="hidden" name="id" value="${admin.id}"/>
                         <fieldset>
                             <legend><small class="form-head">Administrator</small></legend>
@@ -71,7 +79,7 @@
                                 <div class="btn-group">
                                     <button type="submit" class="btn">Save</button>
                                     <input type="reset" class="btn" value="Reset"/>
-                                    <input type="button" class="btn" value="Back" onclick="history.back()"/>
+                                    <input type="button" class="btn" value="Back" onclick="back()"/>
                                 </div>
                             </div>
                         </fieldset>

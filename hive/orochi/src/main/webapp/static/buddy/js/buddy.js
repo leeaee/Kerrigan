@@ -2,6 +2,14 @@
  *  common methods need by web appllcation.
  */
 
+$(document).ready(function()
+{
+    if ($('[rel=tooltip]').length > 0)
+    {
+        $('[rel="tooltip"]').tooltip({placement:'top'});
+    }
+});
+
 submitForm = function (obj, uri)
 {
     obj.action = uri;
@@ -18,17 +26,23 @@ confirmSubmit = function (obj, uri, method, msg)
     }
 };
 
-redirect = function(url, value)
+redirect = function(url)
 {
-    if (value != null)
-    {
-        window.location.href = url + '/' + value;
-    }
-    else
+    window.location.href = url;
+};
+
+confirmRedirect = function (url, msg)
+{
+    if (window.confirm(msg))
     {
         window.location.href = url;
     }
 };
+
+back = function()
+{
+    window.history.back();
+}
 
 updateButton = function()
 {
@@ -63,7 +77,7 @@ updateButton = function()
 
 getCheckedValues = function(name)
 {
-    var values = new Array();
+    var values = [];
     $(':checkbox[name="'+ name + '"][checked]').each(function(index)
     {
         values[index] = $(this).val();

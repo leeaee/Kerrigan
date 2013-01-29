@@ -33,7 +33,7 @@ public class AdminService
 
     //Methods
     @Transactional(readOnly = true)
-    public Page<Admin> readAdmins(Map<String, Object> parameters)
+    public Page<Admin> searchAdmins(Map<String, Object> parameters)
     {
         return adminDao.findAdmins(parameters);
     }
@@ -65,7 +65,7 @@ public class AdminService
         if (admin.getPassword() != null) admin.setPassword(MD5Uitls.getHashString(admin.getPassword()));
         admin.setLastModify(System.currentTimeMillis());
         admin = adminDao.updateAdmin(admin);
-        memcachedClient.replace(MemcachedObjectType.ADMIN.getPrefix() + admin.getName(), admin, MemcachedObjectType.ADMIN.getExpiredTime());
+        memcachedClient.safeDelete(MemcachedObjectType.ADMIN.getPrefix() + admin.getName());
         shiroDbRealm.clearCachedAuthorizationInfo(admin.getName());
 
         return admin;

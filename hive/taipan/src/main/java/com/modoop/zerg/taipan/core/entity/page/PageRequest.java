@@ -1,8 +1,8 @@
 package com.modoop.zerg.taipan.core.entity.page;
 
 
-import com.modoop.zerg.taipan.core.util.AssertUtils;
-import com.modoop.zerg.taipan.core.util.StringUtils;
+import com.modoop.zerg.taipan.core.util.Asserts;
+import com.modoop.zerg.taipan.core.util.Strings;
 
 import java.util.Collections;
 import java.util.List;
@@ -147,13 +147,13 @@ public class PageRequest
      */
     public void setOrder(final String orderDir)
     {
-        String lowcaseOrderDir = StringUtils.lowerCase(orderDir);
+        String lowcaseOrderDir = Strings.lowerCase(orderDir);
         
         // 检查order字符串的合法值
-        String[] orderDirs = StringUtils.split(lowcaseOrderDir, ',');
+        String[] orderDirs = Strings.split(lowcaseOrderDir, ',');
         for (String orderDirStr : orderDirs)
         {
-            if (!StringUtils.equals(Sort.DESC, orderDirStr) && !StringUtils.equals(Sort.ASC, orderDirStr))
+            if (!Strings.equals(Sort.DESC, orderDirStr) && !Strings.equals(Sort.ASC, orderDirStr))
             {
                 throw new IllegalArgumentException("Sort order " + orderDirStr + " is invalidated!");
             }
@@ -172,9 +172,9 @@ public class PageRequest
         {
             return Collections.emptyList();
         }
-        String[] orderBys = StringUtils.split(orderBy, ',');
-        String[] orderDirs = StringUtils.split(order, ',');
-        AssertUtils.isTrue(orderBys.length == orderDirs.length, "分页多重排序参数中,排序字段与排序方向的个数不相等");
+        String[] orderBys = Strings.split(orderBy, ',');
+        String[] orderDirs = Strings.split(order, ',');
+        Asserts.isTrue(orderBys.length == orderDirs.length, "分页多重排序参数中,排序字段与排序方向的个数不相等");
         
         List<Sort> orders = Collections.emptyList();
         for (int i = 0; i < orderBys.length; i++)
@@ -191,7 +191,7 @@ public class PageRequest
      */
     public boolean isOrderBySetted()
     {
-        return (StringUtils.isNotBlank(orderBy) && StringUtils.isNotBlank(order));
+        return (Strings.isNotBlank(orderBy) && Strings.isNotBlank(order));
     }
     
     /**
