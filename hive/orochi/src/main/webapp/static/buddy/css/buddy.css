@@ -163,28 +163,14 @@ html, body
 ----------------------------------------*/
 
 /*** data table ***/
-TABLE.data {
+table.data
+{
     table-layout: fixed;
     width: 100%;
 }
 
-TABLE.data A:link, TABLE.data A:visited {
-    text-decoration: none;
-    color: #f1f1f1;
-    outline: none;
-}
-TABLE.data A:hover {
-    text-decoration: underline;
-    outline: none;
-    color: #ffffff;
-}
-TABLE.data A:active {
-    text-decoration: none;
-    color: #f1f1f1;
-    outline: none;
-}
-
-TABLE.data TD {
+table.data td
+{
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;                 /* for IE */
@@ -195,10 +181,26 @@ TABLE.data TD {
     vertical-align: bottom;
 }
 
-
-TABLE.data TH:last-child
+table.data th:first-child
 {
-    width: 70px;
+    width: 20px;
+}
+
+table.data td:first-child
+{
+    text-align: center;
+    padding: 7px 0 9px;
+}
+
+table.page
+{
+    width: 100%;
+}
+
+table.page td.desc
+{
+    width: 200px;
+    vertical-align: top;
 }
 
 .form-horizontal
@@ -235,6 +237,16 @@ TABLE.data TH:last-child
     width: auto;
     max-width: 1200px;
     margin: 0 auto;
+}
+
+.right-float
+{
+    float: right;
+}
+
+.left
+{
+    text-align: left;
 }
 
 .right

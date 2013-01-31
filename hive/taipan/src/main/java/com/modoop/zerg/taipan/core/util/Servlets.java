@@ -1,13 +1,16 @@
 package com.modoop.zerg.taipan.core.util;
 
+import com.google.common.collect.Maps;
 import com.google.common.net.HttpHeaders;
-import com.modoop.zerg.taipan.core.util.Encodes;
+import com.modoop.zerg.taipan.core.constant.Constants;
 import org.apache.commons.lang3.Validate;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -186,5 +189,51 @@ public class Servlets
     {
         String encode = userName + ":" + password;
         return "Basic " + Encodes.encodeBase64(encode.getBytes());
+    }
+
+    /**
+     * 用默认的字符集编码（UTF-8）编码指定的字符串，以便能够正确的作为 GET 参数使用。
+     *
+     * @param str 要编码的字符串
+     * @return 编码过的字符串
+     */
+    public static String urlEncode(String str)
+    {
+        try
+        {
+            return URLEncoder.encode(str, Constants.DEFAULT_CHARSET);
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            return str;
+        }
+    }
+
+    /**
+     * 用默认的字符集编码（UTF-8）解码指定的字符串，以便能够得到正确的原始参数.
+     *
+     * @param str 要解码的字符串
+     * @return 解码过的字符串
+     */
+    public static String urlDecode(String str)
+    {
+        try
+        {
+            if (str.indexOf("%") > -1)
+            {
+                // The url has not been decoded yet and it should be decoded with project default charset.
+                return URLDecoder.decode(str, Constants.DEFAULT_CHARSET);
+            }
+            else
+            {// if (str.length() == str.getBytes().length) {
+                // Some web container, such as tomcat 5.0.x, will automatically decoded url with charset 'ISO-8859-1',
+                // here we need to transform the string to 'UTF-8', the project default charset.
+                return new String(str.getBytes("ISO-8859-1"), Constants.DEFAULT_CHARSET);
+            }
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            return str;
+        }
     }
 }

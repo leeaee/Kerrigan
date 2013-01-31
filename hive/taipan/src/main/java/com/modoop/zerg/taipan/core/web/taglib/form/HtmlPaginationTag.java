@@ -3,15 +3,15 @@ package com.modoop.zerg.taipan.core.web.taglib.form;
 import com.modoop.zerg.taipan.core.constant.Constants;
 import com.modoop.zerg.taipan.core.entity.page.Page;
 import com.modoop.zerg.taipan.core.i18n.I18NDictionary;
+import com.modoop.zerg.taipan.core.util.Servlets;
+import com.modoop.zerg.taipan.core.util.Strings;
 import com.modoop.zerg.taipan.core.web.taglib.HtmlTag;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.Locale;
 
 /**
@@ -32,11 +32,13 @@ public class HtmlPaginationTag<T> extends HtmlTag
 
     public static final String MSG_KEY_BTN_LAST = "tag.navigator.btn.last";
 
-    public static final String MSG_KEY_PAGES = "tag.navigator.pages";
 
     private Page<T> page;
 
     private String excludedParams = "";
+
+    private int show = 10;
+
 
     // Constructor
     public HtmlPaginationTag()
@@ -44,7 +46,6 @@ public class HtmlPaginationTag<T> extends HtmlTag
     }
 
     // Methods
-
     public Page<T> getPage()
     {
         return page;
@@ -58,6 +59,11 @@ public class HtmlPaginationTag<T> extends HtmlTag
     public String getExcludedParams()
     {
         return excludedParams;
+    }
+
+    public int getShow()
+    {
+        return show;
     }
 
     public void setExcludedParams(String excludedParams)
@@ -75,13 +81,22 @@ public class HtmlPaginationTag<T> extends HtmlTag
         HttpServletRequest req = (HttpServletRequest) pageContext.getRequest();
         Locale curLocale = getCurrentLocale();
 
-        StringBuffer html = new StringBuffer("<table name=\"" + this.name + "\" width=\"100%\" border=\"0\"");
+        StringBuffer html = new StringBuffer("<table style=\"width: 100%\">\n");
+        html.append("   <tr>\n");
+        html.append("       <td style=\"width: 200px; vertical-align: top\">\n");
+        html.append("           <div class=\"left\">");
+        html.append(I18NDictionary.getMessage(MSG_KEY_DISPLAY_RANGE, new Object[]{page.getEntryCount(), page.getEntryFromIndex(), page.getEntryToIndex()}, curLocale)).append("</div>\n");
+        html.append("       </td>\n");
+        html.append("       <td>\n");
+        html.append("           <div");
 
         // add attribute 'class'
         if (this.cssClass != null && this.cssClass.length() > 0)
         {
             html.append(" class=\"").append(this.cssClass).append('\"');
         }
+
+        html.append("style=\"margin: 0\"");
 
         // add other attributs set by 'decorator'
         if (this.decorate != null && this.decorate.length() > 0)
@@ -90,46 +105,98 @@ public class HtmlPaginationTag<T> extends HtmlTag
         }
 
         html.append(">\n");
+        html.append("               <ul>\n");
 
-        html.append("    <tr>\n");
-        html.append("        <td><nobr>");
-
-        html.append(I18NDictionary.getMessage(MSG_KEY_DISPLAY_RANGE, new Object[]{page.getEntryCount(), page.getEntryFromIndex(), page.getEntryToIndex()}, curLocale));
-
-        html.append("        </nobr></td>\n");
-
-        html.append("        <td width=\"100%\"></td>\n");
-        html.append("        <td align=\"right\"><nobr>\n");
-
-        // Buttons
         String queryString = getQueryString(req);
 
         int prevPageIndex = page.getPageIndex() <= 1 ? 1 : page.getPageIndex() - 1;
         int nextPageIndex = page.getPageIndex() >= page.getPageCount() ? page.getPageCount() : page.getPageIndex() + 1;
-
-        html.append("           <input type=\"button\" name=\"navFirst\" value=\"").append(I18NDictionary.getMessage(MSG_KEY_BTN_FIRST, curLocale)).append("\" class=\"navbttn\" onclick=\"location.href='?").append(queryString).append("1'\"").append(page.isHasPre() ? "" : " disabled ").append("/>\n");
-        html.append("           <input type=\"button\" name=\"navPrev\" value=\"").append(I18NDictionary.getMessage(MSG_KEY_BTN_PREV, curLocale)).append("\" class=\"navbttn\" onclick=\"location.href='?").append(queryString).append(prevPageIndex).append("'\"").append(page.isHasPre() ? "" : " disabled ").append("/>\n");
-        html.append("           <input type=\"button\" name=\"navNext\" value=\"").append(I18NDictionary.getMessage(MSG_KEY_BTN_NEXT, curLocale)).append("\" class=\"navbttn\" onclick=\"location.href='?").append(queryString).append(nextPageIndex).append("'\"").append(page.isHasNext() ? "" : " disabled ").append("/>\n");
-        html.append("           <input type=\"button\" name=\"navLast\" value=\"").append(I18NDictionary.getMessage(MSG_KEY_BTN_LAST, curLocale)).append("\" class=\"navbttn\" onclick=\"location.href='?").append(queryString).append(page.getPageCount()).append("'\"").append(page.isHasNext() ? "" : " disabled ").append("/>\n");
-
-        html.append("&nbsp;&nbsp;\n");
-
-        // Page
-
-        // page select
-        StringBuffer select = new StringBuffer("<select name=\"pagelist\" onchange=\"location.href='?" + queryString + "' + this.options[this.options.selectedIndex].value\">\n");
-
-        for (int i = 1; i <= page.getPageCount(); i++)
+        if (page.isHasPre())
         {
-            select.append("<option value=\"").append(i).append('\"').append(page.getPageIndex() == i ? " selected" : "").append('>').append(i).append("</option>\n");
+            html.append("                   <li><a href=\"?").append(queryString).append("1").append("\">").append(I18NDictionary.getMessage(MSG_KEY_BTN_FIRST, curLocale)).append("</a></li>\n");
+            html.append("                   <li><a href=\"?").append(queryString).append(prevPageIndex).append("\">").append(I18NDictionary.getMessage(MSG_KEY_BTN_PREV, curLocale)).append("</a></li>\n");
+        }
+        else
+        {
+            html.append("                   <li class=\"disabled\"><a href=\"javascript:void(0)\">").append(I18NDictionary.getMessage(MSG_KEY_BTN_FIRST, curLocale)).append("</a></li>\n");
+            html.append("                   <li class=\"disabled\"><a href=\"javascript:void(0)\">").append(I18NDictionary.getMessage(MSG_KEY_BTN_PREV, curLocale)).append("</a></li>\n");
         }
 
-        select.append("</select>\n");
 
-        html.append(I18NDictionary.getMessage(MSG_KEY_PAGES, new Object[]{select.toString(), page.getPageCount()}, curLocale));
+        int start, end;
+        int round = Math.round(show / 2);
 
-        html.append("         </nobr></td>\n");
-        html.append("    </tr>\n");
+        if (page.getPageCount() <= (round + 1))
+        {
+            start = 1;
+            end = page.getPageCount();
+        }
+        else
+        {
+            // calculate the start value
+            start = page.getPageIndex() - round;
+            if (start < 1)
+            {
+                start = 1;
+            }
+            else
+            {
+                if (start <= page.getPageCount() - show)
+                {
+                    start = page.getPageIndex() - round;
+                }
+                else
+                {
+                    start = page.getPageCount() - (show - 1);
+                }
+            }
+            // calculate the end value
+            end = page.getPageIndex() + (show%2 == 0 ? (round - 1) : round);
+            if (end > show)
+            {
+                if (end <= page.getPageCount())
+                {
+                    end = page.getPageIndex() + (show%2 == 0 ? (round - 1) : round);
+                }
+                else
+                {
+                    end = page.getPageCount();
+                }
+            }
+            else
+            {
+                end = show;
+            }
+        }
+
+        // Page
+        for (int i = start; i <= end; i++)
+        {
+            if (i == page.getPageIndex())
+            {
+                html.append("                   <li class=\"active\"><a href=\"?").append(queryString).append(i).append("\">").append(i).append("</a></li>\n");
+            }
+            else
+            {
+                html.append("                   <li><a href=\"?").append(queryString).append(i).append("\">").append(i).append("</a></li>\n");
+            }
+        }
+
+        if (page.isHasNext())
+        {
+            html.append("                   <li><a href=\"?").append(queryString).append(nextPageIndex).append("\">").append(I18NDictionary.getMessage(MSG_KEY_BTN_NEXT, curLocale)).append("</a></li>\n");
+            html.append("                   <li><a href=\"?").append(queryString).append(page.getPageCount()).append("\">").append(I18NDictionary.getMessage(MSG_KEY_BTN_LAST, curLocale)).append("</a></li>\n");
+        }
+        else
+        {
+            html.append("                   <li class=\"disabled\"><a href=\"javascript:void(0)\">").append(I18NDictionary.getMessage(MSG_KEY_BTN_NEXT, curLocale)).append("</a></li>\n");
+            html.append("                   <li class=\"disabled\"><a href=\"javascript:void(0)\">").append(I18NDictionary.getMessage(MSG_KEY_BTN_LAST, curLocale)).append("</a></li>\n");
+        }
+
+        html.append("               </ul>\n");
+        html.append("           </div>\n");
+        html.append("       </td>\n");
+        html.append("   </tr>\n");
         html.append("</table>\n");
 
         try
@@ -144,28 +211,22 @@ public class HtmlPaginationTag<T> extends HtmlTag
         return SKIP_BODY;
     }
 
-    @SuppressWarnings("unchecked")
     protected String getQueryString(HttpServletRequest req)
     {
         // Deal with query string
-        StringBuffer newQuery = new StringBuffer();
-//        String paramValue;
-        if (req.getParameter("isNav") == null)
-        {
-            newQuery.append("isNav=true&");
-        }
+        StringBuilder newQuery = new StringBuilder();
+        String paramValue;
+
         String[] patterns = this.excludedParams.split(" ");
 
-        Enumeration tmp = req.getParameterNames();
-        List paraNames = Collections.list(tmp);
-        Collections.reverse(paraNames);
+        Enumeration paramNames = req.getParameterNames();
 
-        for (Object aParaName : paraNames)
+        while (paramNames != null && paramNames.hasMoreElements())
         {
-            String paraName = aParaName.toString();
+            String paramName = (String) paramNames.nextElement();
 
-            // Parameter 'pageIndex' does not need to build.
-            if (paraName.equals(Constants.QUERY_PAGE_INDEX))
+            // Parameter 'page-index' does not need to build.
+            if (Constants.QUERY_PAGE_INDEX.equals(paramName))
             {
                 continue;
             }
@@ -174,7 +235,7 @@ public class HtmlPaginationTag<T> extends HtmlTag
             boolean matched = false;
             for (String pattern : patterns)
             {
-                if (paraName.matches(pattern))
+                if (paramName.matches(pattern))
                 {
                     matched = true;
                     break;
@@ -186,24 +247,18 @@ public class HtmlPaginationTag<T> extends HtmlTag
                 continue;
             }
 
-            newQuery.append(paraName).append('=');
+            newQuery.append(paramName).append('=');
 
-//            try
-//            {
-//                paramValue = RequestUtils.getParam(req, paraName);
-//            }
-//            catch (WebException e)
-//            {
-//                e.printStackTrace();
-//            }
-//            if (!Strings.isAscii(paramValue))
-//            {
-//                newQuery.append(RequestUtils.urlEncode(paramValue));
-//            }
-//            else
-//            {
-//                newQuery.append(paramValue);
-//            }
+            paramValue = req.getParameter(paramName);
+
+            if (!Strings.isAscii(paramValue))
+            {
+                newQuery.append(Servlets.urlEncode(paramValue));
+            }
+            else
+            {
+                newQuery.append(paramValue);
+            }
 
             newQuery.append('&');
         }

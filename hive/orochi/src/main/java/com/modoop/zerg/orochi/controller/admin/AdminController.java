@@ -36,8 +36,7 @@ public class AdminController
     @RequestMapping(value = {"", "browse"}, method = RequestMethod.GET)
     public String browse(Model model, ServletRequest request)
     {
-        Map<String, Object> parameters = Servlets.getParametersStartingWith(request, "search_");
-        logger.debug("search parameters: {}", JsonMapper.buildNonDefaultMapper().toJson(parameters));
+        Map<String, Object> parameters = Servlets.getParametersStartingWith(request, null);
         model.addAttribute("params", parameters);
         model.addAttribute("page", adminService.searchAdmins(parameters));
         return "admin/admin_browse";
@@ -110,23 +109,26 @@ public class AdminController
     }
 
     @RequiresPermissions("admin:change")
-    @RequestMapping(value = "delete/{name}", method = RequestMethod.GET)
-    public String delete(@PathVariable("name") String name, RedirectAttributes redirectAttributes, Principal principal)
+    @RequestMapping(value = "delete", method = RequestMethod.POST)
+    public String delete(@RequestParam(value = "names") List<String> names, RedirectAttributes redirectAttributes, Principal principal)
     {
-        logger.debug("Delete admin: {}", name);
-        if (principal.getName().equals(name))
+        logger.debug("Delete admins: {}", names);
+        for (String name : names)
         {
-            redirectAttributes.addFlashAttribute("error", "Could not delete administrator self.");
-            return "redirect:/admin/browse";
-        }
-        try
-        {
-            adminService.deleteAdmin(name);
-        }
-        catch (JerseyException e)
-        {
-            redirectAttributes.addFlashAttribute("error", "Could not delete administrator: " + e.getMessage());
-            return "redirect:/admin/browse";
+            if (principal.getName().equals(name))
+            {
+                redirectAttributes.addFlashAttribute("error", "Could not delete administrator self.");
+                return "redirect:/admin/browse";
+            }
+            try
+            {
+                adminService.deleteAdmin(name);
+            }
+            catch (JerseyException e)
+            {
+                redirectAttributes.addFlashAttribute("error", "Could not delete administrator: " + e.getMessage());
+                return "redirect:/admin/browse";
+            }
         }
 
         redirectAttributes.addFlashAttribute("message", "Delete administrator successfully.");

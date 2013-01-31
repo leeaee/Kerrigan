@@ -21,9 +21,9 @@ public class MyBatisDao extends SqlSessionDaoSupport
 {
     public <T> Page<T> selectPage(String statementName, final Map<String, Object> parameters)
     {
-        Page<T> page = this.setPageParameter(parameters);
+        PageRequest pageRequest = this.setPageParameter(parameters);
         String countStatementName = statementName.concat("Count");
-        return selectPage(page, statementName, countStatementName, parameters);
+        return selectPage(pageRequest, statementName, countStatementName, parameters);
     }
 
     public <T> Page<T> selectPage(final PageRequest pageRequest, String statementName, String countStatementName, final Object parameter)
@@ -72,11 +72,10 @@ public class MyBatisDao extends SqlSessionDaoSupport
         }
     }
 
-    private <T> Page<T> setPageParameter(final Map<String, Object> parameters)
+    private PageRequest setPageParameter(final Map<String, Object> parameters)
     {
-        int pageIndex = parameters.get("pageIndex") != null ? Integer.parseInt(parameters.get("pageIndex").toString()) : 1;
-        int pageSize = parameters.get("pageSize") != null ? Integer.parseInt(parameters.get("pageSize").toString()) : 20;
-        PageRequest pageRequest = new PageRequest(pageIndex, pageSize);
-        return new Page<T>(pageRequest);
+        int pageIndex = parameters.get("page") != null ? Integer.parseInt(parameters.get("page").toString()) : 1;
+        int pageSize = parameters.get("size") != null ? Integer.parseInt(parameters.get("size").toString()) : 20;
+        return new PageRequest(pageIndex, pageSize);
     }
 }

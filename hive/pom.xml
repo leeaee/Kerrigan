@@ -74,6 +74,11 @@
                 <artifactId>zerg-taipan</artifactId>
                 <version>${zerg.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.modoop.zerg</groupId>
+                <artifactId>zerg-orochi</artifactId>
+                <version>${zerg.version}</version>
+            </dependency>
 
             <!-- Spring模块声明 -->
             <dependency>

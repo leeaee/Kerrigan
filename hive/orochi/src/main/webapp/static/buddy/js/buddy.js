@@ -8,7 +8,14 @@ $(document).ready(function()
     {
         $('[rel="tooltip"]').tooltip({placement:'top'});
     }
+
+    $(':input.sbtn, :input.mbtn, :button.sbtn, :button.mbtn').each(function()
+    {
+        $(this).attr('disabled', 'disabled');
+    });
+    updateButton();
 });
+
 
 submitForm = function (obj, uri)
 {
@@ -31,24 +38,37 @@ redirect = function(url)
     window.location.href = url;
 };
 
-confirmRedirect = function (url, msg)
+submitUrl = function(url, value)
+{
+    window.location.href = url + '/' + value;
+};
+
+deleteSubmit = function(uri, obj, msg, value)
 {
     if (window.confirm(msg))
     {
-        window.location.href = url;
+        obj.method = 'post';
+        obj.action = uri;
+        $('#deletes').val(value);
+        obj.submit();
     }
 };
 
-back = function()
+postSubmit = function()
+{
+
+};
+
+back = function ()
 {
     window.history.back();
-}
+};
 
 updateButton = function()
 {
     var i = 0;
 
-    $('TABLE.data :checkbox').each(function()
+    $('table.data :checkbox').each(function()
     {
         if($(this).attr('checked')) i++;
     });
