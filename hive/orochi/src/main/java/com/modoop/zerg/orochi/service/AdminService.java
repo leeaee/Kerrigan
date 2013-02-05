@@ -60,9 +60,9 @@ public class AdminService
         return adminDao.saveAdmin(admin);
     }
 
-    public Admin updateAdmin(Admin admin) throws EntityAlreadyExistException, EntityNotFoundException
+    public Admin updateAdmin(Admin admin)
     {
-        if (admin.getPassword() != null) admin.setPassword(MD5Uitls.getHashString(admin.getPassword()));
+        if (admin.getPassword() != null && admin.getPassword().length() > 0) admin.setPassword(MD5Uitls.getHashString(admin.getPassword()));
         admin.setLastModify(System.currentTimeMillis());
         admin = adminDao.updateAdmin(admin);
         memcachedClient.safeDelete(MemcachedObjectType.ADMIN.getPrefix() + admin.getName());

@@ -87,7 +87,8 @@ public class HtmlJodaTag extends HtmlTag
             formatter = DateTimeFormat.mediumDate();
         }
 
-        formatter = formatter.withLocale(this.getCurrentLocale()).withZone(this.getCurrentDateTimeZone());
+//        formatter = formatter.withLocale(this.getCurrentLocale()).withZone(this.getCurrentDateTimeZone());
+        formatter = formatter.withLocale(this.getCurrentLocale());
 
         String formatted;
         if (value != null)

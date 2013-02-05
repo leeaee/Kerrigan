@@ -1,5 +1,6 @@
 package com.modoop.zerg.taipan.core.memcached;
 
+import com.modoop.zerg.taipan.core.mapper.JsonMapper;
 import com.modoop.zerg.taipan.core.util.Strings;
 import net.spy.memcached.MemcachedClient;
 import org.slf4j.Logger;
@@ -27,6 +28,8 @@ public class SpyMemcachedClient implements DisposableBean
     private long shutdownTimeout = 2500;
 
     private long updateTimeout = 2500;
+
+    private JsonMapper jsonMapper = JsonMapper.buildNormalMapper();
 
     /**
      * Get方法, 转换结果类型并屏蔽异常, 仅返回Null.
@@ -79,6 +82,7 @@ public class SpyMemcachedClient implements DisposableBean
     {
         if (!Strings.isEmpty(key) && value != null)
         {
+            logger.debug("set {} for {} seconds", jsonMapper.toJson(value), expiration);
             memcachedClient.set(key, expiration, value);
             logger.debug("set {} value for {} seconds", key, expiration);
         }

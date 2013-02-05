@@ -1,6 +1,7 @@
 package com.modoop.zerg.taipan.core.memcached;
 
 import com.modoop.zerg.taipan.core.config.ApplicationContextConfig;
+import com.modoop.zerg.taipan.core.mapper.JsonMapper;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
@@ -20,7 +21,6 @@ public class SpyMemcachedClientTest extends AbstractJUnit4SpringContextTests
     @Autowired
     private SpyMemcachedClient client;
 
-    @Test
     public void getObject() throws InterruptedException
     {
         String key = "foo";
@@ -50,7 +50,6 @@ public class SpyMemcachedClientTest extends AbstractJUnit4SpringContextTests
         assertNull(expiredValue);
     }
 
-    @Test
     public void addAndReplaceObject() throws InterruptedException
     {
         String key = "foo";
@@ -71,5 +70,13 @@ public class SpyMemcachedClientTest extends AbstractJUnit4SpringContextTests
         assertEquals(client.get(key), newValue);
         Thread.sleep(4000);
         assertNull(client.get(key));
+    }
+
+    @Test
+    public void testShiro()
+    {
+        Object a = client.get("genkyo");
+        JsonMapper jsonMapper = JsonMapper.buildNonNullMapper();
+        System.out.println("genkyo >>> " + jsonMapper.toJson(a));
     }
 }

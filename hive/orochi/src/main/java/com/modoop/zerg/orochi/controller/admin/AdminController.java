@@ -6,7 +6,6 @@ import com.modoop.zerg.orochi.exception.EntityAlreadyExistException;
 import com.modoop.zerg.orochi.exception.EntityNotFoundException;
 import com.modoop.zerg.orochi.service.AdminService;
 import com.modoop.zerg.taipan.core.jersey.JerseyException;
-import com.modoop.zerg.taipan.core.mapper.JsonMapper;
 import com.modoop.zerg.taipan.core.util.Servlets;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -46,6 +45,7 @@ public class AdminController
     @RequestMapping(value = "detail/{name}", method = RequestMethod.GET)
     public String detail(@PathVariable("name") String name, Model model) throws EntityNotFoundException
     {
+        logger.debug("View admin: {}", name);
         model.addAttribute("admin", adminService.readAdmin(name));
         return "admin/admin_detail";
     }
@@ -71,8 +71,9 @@ public class AdminController
             Role role = new Role(id);
             admin.getRoles().add(role);
         }
-        logger.debug("Create admin: {}", admin);
+
         adminService.createAdmin(admin);
+        logger.debug("Create admin: {}", admin);
 
         redirectAttributes.addFlashAttribute("message", "Save administrator successfully.");
         return "redirect:/admin/browse";
@@ -93,7 +94,6 @@ public class AdminController
     @RequiresPermissions("admin:change")
     @RequestMapping(value = "update", method = RequestMethod.POST)
     public String update(@ModelAttribute Admin admin, @RequestParam(value = "roleIds") List<Long> roleIds, RedirectAttributes redirectAttributes)
-            throws EntityAlreadyExistException, EntityNotFoundException
     {
         admin.getRoles().clear();
         for (Long roleId : roleIds)
@@ -103,14 +103,15 @@ public class AdminController
         }
 
         adminService.updateAdmin(admin);
+        logger.debug("Update admin: {}", admin);
 
         redirectAttributes.addFlashAttribute("message", "Update administrator successfully.");
-        return "redirect:/admin/browse";
+        return "redirect:/admin/detail/" + admin.getName();
     }
 
     @RequiresPermissions("admin:change")
     @RequestMapping(value = "delete", method = RequestMethod.POST)
-    public String delete(@RequestParam(value = "names") List<String> names, RedirectAttributes redirectAttributes, Principal principal)
+    public String delete(@RequestParam(value = "name") List<String> names, RedirectAttributes redirectAttributes, Principal principal)
     {
         logger.debug("Delete admins: {}", names);
         for (String name : names)

@@ -78,7 +78,7 @@
         update admin
         <trim prefix="set" suffixOverrides=",">
             <if test="trueName != null">true_name=#{trueName},</if>
-            <if test="password != null">password=#{password},</if>
+            <if test="password != null and password != ''">password=#{password},</if>
             <if test="phone != null">phone=#{phone},</if>
             <if test="mobile != null">mobile=#{mobile},</if>
             <if test="email != null">email=#{email},</if>

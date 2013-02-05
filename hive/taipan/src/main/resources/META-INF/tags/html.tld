@@ -33,6 +33,7 @@
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
         </attribute>
+        <!-- not support
         <attribute>
             <description>
                 Time zone in which to represent the formatted time.
@@ -49,6 +50,7 @@
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
         </attribute>
+        -->
         <attribute>
             <description>
                 Locale whose predefined formatting styles for dates and times are to be used for formatting.
@@ -182,6 +184,12 @@
             <type>java.lang.String</type>
         </attribute>
         <attribute>
+            <name>cssStyle</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
             <name>decorate</name>
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
@@ -210,6 +218,55 @@
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
             <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>show</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.Integer</type>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>pageinfo</name>
+        <tag-class>com.modoop.zerg.taipan.core.web.taglib.form.HtmlPageinfoTag</tag-class>
+        <body-content>empty</body-content>
+
+        <attribute>
+            <name>name</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>cssClass</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>cssStyle</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>locale</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.util.Locale</type>
+        </attribute>
+        <attribute>
+            <name>localeRef</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>page</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>com.modoop.zerg.taipan.core.entity.page.Page</type>
         </attribute>
     </tag>
 

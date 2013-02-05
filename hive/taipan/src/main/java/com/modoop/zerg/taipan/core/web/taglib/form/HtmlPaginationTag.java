@@ -56,14 +56,19 @@ public class HtmlPaginationTag<T> extends HtmlTag
         this.page = page;
     }
 
-    public String getExcludedParams()
-    {
-        return excludedParams;
-    }
-
     public int getShow()
     {
         return show;
+    }
+
+    public void setShow(int show)
+    {
+        this.show = show;
+    }
+
+    public String getExcludedParams()
+    {
+        return excludedParams;
     }
 
     public void setExcludedParams(String excludedParams)
@@ -81,14 +86,7 @@ public class HtmlPaginationTag<T> extends HtmlTag
         HttpServletRequest req = (HttpServletRequest) pageContext.getRequest();
         Locale curLocale = getCurrentLocale();
 
-        StringBuffer html = new StringBuffer("<table style=\"width: 100%\">\n");
-        html.append("   <tr>\n");
-        html.append("       <td style=\"width: 200px; vertical-align: top\">\n");
-        html.append("           <div class=\"left\">");
-        html.append(I18NDictionary.getMessage(MSG_KEY_DISPLAY_RANGE, new Object[]{page.getEntryCount(), page.getEntryFromIndex(), page.getEntryToIndex()}, curLocale)).append("</div>\n");
-        html.append("       </td>\n");
-        html.append("       <td>\n");
-        html.append("           <div");
+        StringBuffer html = new StringBuffer("<div");
 
         // add attribute 'class'
         if (this.cssClass != null && this.cssClass.length() > 0)
@@ -96,7 +94,10 @@ public class HtmlPaginationTag<T> extends HtmlTag
             html.append(" class=\"").append(this.cssClass).append('\"');
         }
 
-        html.append("style=\"margin: 0\"");
+        if (this.cssStyle != null && this.cssStyle.length() > 0)
+        {
+            html.append(" style=\"").append(this.cssStyle).append('\"');
+        }
 
         // add other attributs set by 'decorator'
         if (this.decorate != null && this.decorate.length() > 0)
@@ -105,7 +106,7 @@ public class HtmlPaginationTag<T> extends HtmlTag
         }
 
         html.append(">\n");
-        html.append("               <ul>\n");
+        html.append("   <ul>\n");
 
         String queryString = getQueryString(req);
 
@@ -113,13 +114,13 @@ public class HtmlPaginationTag<T> extends HtmlTag
         int nextPageIndex = page.getPageIndex() >= page.getPageCount() ? page.getPageCount() : page.getPageIndex() + 1;
         if (page.isHasPre())
         {
-            html.append("                   <li><a href=\"?").append(queryString).append("1").append("\">").append(I18NDictionary.getMessage(MSG_KEY_BTN_FIRST, curLocale)).append("</a></li>\n");
-            html.append("                   <li><a href=\"?").append(queryString).append(prevPageIndex).append("\">").append(I18NDictionary.getMessage(MSG_KEY_BTN_PREV, curLocale)).append("</a></li>\n");
+            html.append("       <li><a href=\"?").append(queryString).append("1").append("\">").append(I18NDictionary.getMessage(MSG_KEY_BTN_FIRST, curLocale)).append("</a></li>\n");
+            html.append("       <li><a href=\"?").append(queryString).append(prevPageIndex).append("\">").append(I18NDictionary.getMessage(MSG_KEY_BTN_PREV, curLocale)).append("</a></li>\n");
         }
         else
         {
-            html.append("                   <li class=\"disabled\"><a href=\"javascript:void(0)\">").append(I18NDictionary.getMessage(MSG_KEY_BTN_FIRST, curLocale)).append("</a></li>\n");
-            html.append("                   <li class=\"disabled\"><a href=\"javascript:void(0)\">").append(I18NDictionary.getMessage(MSG_KEY_BTN_PREV, curLocale)).append("</a></li>\n");
+            html.append("       <li class=\"disabled\"><a href=\"javascript:void(0)\">").append(I18NDictionary.getMessage(MSG_KEY_BTN_FIRST, curLocale)).append("</a></li>\n");
+            html.append("       <li class=\"disabled\"><a href=\"javascript:void(0)\">").append(I18NDictionary.getMessage(MSG_KEY_BTN_PREV, curLocale)).append("</a></li>\n");
         }
 
 
@@ -174,30 +175,27 @@ public class HtmlPaginationTag<T> extends HtmlTag
         {
             if (i == page.getPageIndex())
             {
-                html.append("                   <li class=\"active\"><a href=\"?").append(queryString).append(i).append("\">").append(i).append("</a></li>\n");
+                html.append("       <li class=\"active\"><a href=\"?").append(queryString).append(i).append("\">").append(i).append("</a></li>\n");
             }
             else
             {
-                html.append("                   <li><a href=\"?").append(queryString).append(i).append("\">").append(i).append("</a></li>\n");
+                html.append("       <li><a href=\"?").append(queryString).append(i).append("\">").append(i).append("</a></li>\n");
             }
         }
 
         if (page.isHasNext())
         {
-            html.append("                   <li><a href=\"?").append(queryString).append(nextPageIndex).append("\">").append(I18NDictionary.getMessage(MSG_KEY_BTN_NEXT, curLocale)).append("</a></li>\n");
-            html.append("                   <li><a href=\"?").append(queryString).append(page.getPageCount()).append("\">").append(I18NDictionary.getMessage(MSG_KEY_BTN_LAST, curLocale)).append("</a></li>\n");
+            html.append("       <li><a href=\"?").append(queryString).append(nextPageIndex).append("\">").append(I18NDictionary.getMessage(MSG_KEY_BTN_NEXT, curLocale)).append("</a></li>\n");
+            html.append("       <li><a href=\"?").append(queryString).append(page.getPageCount()).append("\">").append(I18NDictionary.getMessage(MSG_KEY_BTN_LAST, curLocale)).append("</a></li>\n");
         }
         else
         {
-            html.append("                   <li class=\"disabled\"><a href=\"javascript:void(0)\">").append(I18NDictionary.getMessage(MSG_KEY_BTN_NEXT, curLocale)).append("</a></li>\n");
-            html.append("                   <li class=\"disabled\"><a href=\"javascript:void(0)\">").append(I18NDictionary.getMessage(MSG_KEY_BTN_LAST, curLocale)).append("</a></li>\n");
+            html.append("       <li class=\"disabled\"><a href=\"javascript:void(0)\">").append(I18NDictionary.getMessage(MSG_KEY_BTN_NEXT, curLocale)).append("</a></li>\n");
+            html.append("       <li class=\"disabled\"><a href=\"javascript:void(0)\\").append(queryString).append(page.getPageCount()).append("\">").append(I18NDictionary.getMessage(MSG_KEY_BTN_LAST, curLocale)).append("</a></li>\n");
         }
 
-        html.append("               </ul>\n");
-        html.append("           </div>\n");
-        html.append("       </td>\n");
-        html.append("   </tr>\n");
-        html.append("</table>\n");
+        html.append("   </ul>\n");
+        html.append("</div>");
 
         try
         {

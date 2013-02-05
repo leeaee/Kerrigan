@@ -24,7 +24,7 @@ public interface AdminDao
 
     public Admin saveAdmin(Admin admin) throws EntityAlreadyExistException, EntityNotFoundException;
 
-    public Admin updateAdmin(Admin admin) throws EntityNotFoundException;
+    public Admin updateAdmin(Admin admin);
 
     public void removeAdmin(String name) throws EntityNotFoundException, EntityCantDeleteException;
 

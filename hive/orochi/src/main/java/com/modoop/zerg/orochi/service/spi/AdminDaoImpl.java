@@ -51,13 +51,11 @@ public class AdminDaoImpl extends MyBatisDao implements AdminDao
     }
 
     @Override
-    public Admin updateAdmin(Admin admin) throws EntityNotFoundException
+    public Admin updateAdmin(Admin admin)
     {
-        Admin entity = findAdmin(admin.getName());
-        this.deleteAdminXRole(entity.getId());
-        this.saveAdminXRole(entity.getId(), admin);
+        this.deleteAdminXRole(admin.getId());
+        this.saveAdminXRole(admin.getId(), admin);
 
-        if (admin.getId() == null) admin.setId(entity.getId());
         getSqlSession().update("adminMapper.updateAdmin", admin);
 
         return getSqlSession().selectOne("adminMapper.findAdmin", admin.getName());
@@ -90,7 +88,7 @@ public class AdminDaoImpl extends MyBatisDao implements AdminDao
     }
 
     //X
-    private void saveAdminXRole(Long adminId, Admin newEntity) throws EntityNotFoundException
+    private void saveAdminXRole(Long adminId, Admin newEntity)
     {
         List<Map<String, Long>> roles = Lists.newArrayList();
         for (Role role : newEntity.getRoles())
