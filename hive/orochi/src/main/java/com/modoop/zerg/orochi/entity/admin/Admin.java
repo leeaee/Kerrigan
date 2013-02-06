@@ -14,6 +14,7 @@ import java.util.List;
 public class Admin implements Serializable
 {
     private static final long serialVersionUID = -8298838450565454455L;
+    public static final String KEY = "entity.admin";
 
     //Properties
     private Long id;

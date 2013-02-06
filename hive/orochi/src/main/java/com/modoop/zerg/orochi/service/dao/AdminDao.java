@@ -22,7 +22,7 @@ public interface AdminDao
 
     public Admin findAdmin(String name) throws EntityNotFoundException;
 
-    public Admin saveAdmin(Admin admin) throws EntityAlreadyExistException, EntityNotFoundException;
+    public Admin saveAdmin(Admin admin);
 
     public Admin updateAdmin(Admin admin);
 
@@ -32,4 +32,7 @@ public interface AdminDao
     public List<Role> findRoles();
 
     public Role findRole(String name) throws EntityNotFoundException;
+
+    //Validator
+    public boolean checkAdminNotExist(String name) throws EntityAlreadyExistException;
 }

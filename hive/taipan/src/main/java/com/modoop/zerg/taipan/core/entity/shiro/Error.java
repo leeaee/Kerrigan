@@ -1,4 +1,4 @@
-package com.modoop.zerg.taipan.core.entity;
+package com.modoop.zerg.taipan.core.entity.shiro;
 
 
 import com.modoop.zerg.taipan.core.constant.Constants;
@@ -15,6 +15,7 @@ import java.io.Serializable;
 @XmlRootElement(name = "error")
 public class Error implements Serializable
 {
+    private static final long serialVersionUID = 2102428013302466987L;
     private int code;
     private String message;
 

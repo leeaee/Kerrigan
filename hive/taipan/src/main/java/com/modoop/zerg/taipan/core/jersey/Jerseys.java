@@ -1,6 +1,6 @@
 package com.modoop.zerg.taipan.core.jersey;
 
-import com.modoop.zerg.taipan.core.entity.Error;
+import com.modoop.zerg.taipan.core.entity.shiro.Error;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,7 +47,7 @@ public class Jerseys
 
     public static Response buildErrorResponse(int status, String message)
     {
-        com.modoop.zerg.taipan.core.entity.Error error = new Error(status, message);
+        Error error = new Error(status, message);
         return Response.status(status).entity(error).build();
     }
 

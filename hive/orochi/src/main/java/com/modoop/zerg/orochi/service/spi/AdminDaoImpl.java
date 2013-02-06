@@ -33,17 +33,14 @@ public class AdminDaoImpl extends MyBatisDao implements AdminDao
     public Admin findAdmin(String name) throws EntityNotFoundException
     {
         Admin admin = getSqlSession().selectOne("adminMapper.findAdmin", name);
-        if (admin == null) throw new EntityNotFoundException("Administrator", name);
+        if (admin == null) throw new EntityNotFoundException(Admin.KEY, name);
 
         return admin;
     }
 
     @Override
-    public Admin saveAdmin(Admin admin) throws EntityAlreadyExistException, EntityNotFoundException
+    public Admin saveAdmin(Admin admin)
     {
-        Admin object = getSqlSession().selectOne("adminMapper.findAdmin", admin.getName());
-        if (object != null) throw new EntityAlreadyExistException("Administrator", admin.getName());
-
         getSqlSession().insert("adminMapper.saveAdmin", admin);
         this.saveAdminXRole(admin.getId(), admin);
 
@@ -65,7 +62,7 @@ public class AdminDaoImpl extends MyBatisDao implements AdminDao
     public void removeAdmin(String name) throws EntityNotFoundException, EntityCantDeleteException
     {
         Admin admin = this.findAdmin(name);
-        if (admin.getId() == 1 || admin.getName().equals("admin")) throw new EntityCantDeleteException("Root administrator", "admin");
+        if (admin.getId() == 1 || admin.getName().equals("admin")) throw new EntityCantDeleteException(Admin.KEY, "admin");
 
         this.deleteAdminXRole(admin.getId());
         getSqlSession().delete("adminMapper.removeAdmin", name);
@@ -106,4 +103,14 @@ public class AdminDaoImpl extends MyBatisDao implements AdminDao
     {
         getSqlSession().insert("adminMapper.deleteAdminXRole", id);
     }
+
+    //Validator
+    @Override
+    public boolean checkAdminNotExist(String name) throws EntityAlreadyExistException
+    {
+        Admin object = getSqlSession().selectOne("adminMapper.findAdmin", name);
+        if (object != null) throw new EntityAlreadyExistException(Admin.KEY, name);
+        return true;
+    }
+
 } // end class

@@ -1,28 +1,27 @@
 package com.modoop.zerg.orochi.exception;
 
-import com.modoop.zerg.taipan.core.jersey.JerseyException;
-
-import javax.ws.rs.core.Response.Status;
+import com.modoop.zerg.taipan.core.web.exception.WebException;
 
 /**
  * @author: Genkyo Lee
  * @date: 4/29/12
  */
-public class EntityNotFoundException extends JerseyException
+public class EntityNotFoundException extends WebException
 {
     private static final long serialVersionUID = -1732421582718005304L;
 
     //Properties
-    private static final String BASE_MSG = "{0} {1} was not found!";
-    public static final Status NOT_FOUND = Status.NOT_FOUND;
+    private static final String BASE_KEY = "exception.entity.missing";
 
     //Constructor
     public EntityNotFoundException(String msg)
     {
-        super(NOT_FOUND, msg);
+        super(msg);
     }
 
     /**
+     * 指明没有找到的实体的类型key和具体的实体主键. 如：
+     *
      * <pre>
      * throw new EntityNotFoundException("entity.user", "genkyo");
      * </pre>
@@ -30,8 +29,8 @@ public class EntityNotFoundException extends JerseyException
      * @param entityKey
      * @param entityValue
      */
-    public EntityNotFoundException(String entityKey, Object entityValue)
+    public EntityNotFoundException(String entityKey, Object entityId)
     {
-        super(NOT_FOUND, BASE_MSG, new Object[]{entityKey, entityValue});
+        super(BASE_KEY, new Object[]{"{" + entityKey + "}", entityId});
     }
 } // end class

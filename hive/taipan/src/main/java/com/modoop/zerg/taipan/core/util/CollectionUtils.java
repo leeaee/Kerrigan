@@ -48,15 +48,16 @@ public class CollectionUtils
      * @param collection   来源集合.
      * @param propertyName 要提取的属性名.
      */
-    public static List extractToList(final Collection collection, final String propertyName)
+    @SuppressWarnings("unchecked")
+    public static <T> List<T> extractToList(final Collection collection, final String propertyName)
     {
-        List<Object> list = new ArrayList<Object>(collection.size());
+        List<T> list = new ArrayList<T>(collection.size());
 
         try
         {
             for (Object obj : collection)
             {
-                list.add(PropertyUtils.getProperty(obj, propertyName));
+                list.add((T) PropertyUtils.getProperty(obj, propertyName));
             }
         }
         catch (Exception e)

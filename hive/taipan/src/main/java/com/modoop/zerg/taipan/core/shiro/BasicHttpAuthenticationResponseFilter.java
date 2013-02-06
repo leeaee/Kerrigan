@@ -1,6 +1,6 @@
 package com.modoop.zerg.taipan.core.shiro;
 
-import com.modoop.zerg.taipan.core.entity.Error;
+import com.modoop.zerg.taipan.core.entity.shiro.Error;
 import com.modoop.zerg.taipan.core.mapper.JaxbMapper;
 import com.modoop.zerg.taipan.core.mapper.JsonMapper;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
@@ -32,7 +32,7 @@ public class BasicHttpAuthenticationResponseFilter extends BasicHttpAuthenticati
         try
         {
             HttpServletRequest httpRequest = WebUtils.toHttp(request);
-            com.modoop.zerg.taipan.core.entity.Error error = new Error(401, AUTHENTICATION_RESPONSE);
+            Error error = new Error(401, AUTHENTICATION_RESPONSE);
             String accept = httpRequest.getHeader(HTTP_HEADER_ACCEPT);
             if (accept.contains(MediaType.APPLICATION_XML) && accept.contains(MediaType.APPLICATION_JSON))
             {

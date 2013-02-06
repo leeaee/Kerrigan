@@ -15,7 +15,7 @@
             Formats a Joda instant or partial using the supplied style or pattern
         </description>
         <name>joda</name>
-        <tag-class>com.modoop.zerg.taipan.core.web.taglib.joda.HtmlJodaTag</tag-class>
+        <tag-class>com.modoop.zerg.taipan.core.web.taglib.HtmlJodaTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <description>
@@ -71,7 +71,7 @@
 
     <tag>
         <name>select</name>
-        <tag-class>com.modoop.zerg.taipan.core.web.taglib.form.HtmlSelectTag</tag-class>
+        <tag-class>com.modoop.zerg.taipan.core.web.taglib.HtmlSelectTag</tag-class>
         <body-content>empty</body-content>
 
         <attribute>
@@ -109,12 +109,6 @@
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
             <type>java.util.Locale</type>
-        </attribute>
-        <attribute>
-            <name>localeRef</name>
-            <required>false</required>
-            <rtexprvalue>true</rtexprvalue>
-            <type>java.lang.String</type>
         </attribute>
         <attribute>
             <name>size</name>
@@ -168,7 +162,7 @@
 
     <tag>
         <name>pagination</name>
-        <tag-class>com.modoop.zerg.taipan.core.web.taglib.form.HtmlPaginationTag</tag-class>
+        <tag-class>com.modoop.zerg.taipan.core.web.taglib.HtmlPaginationTag</tag-class>
         <body-content>empty</body-content>
 
         <attribute>
@@ -202,12 +196,6 @@
             <type>java.util.Locale</type>
         </attribute>
         <attribute>
-            <name>localeRef</name>
-            <required>false</required>
-            <rtexprvalue>true</rtexprvalue>
-            <type>java.lang.String</type>
-        </attribute>
-        <attribute>
             <name>page</name>
             <required>true</required>
             <rtexprvalue>true</rtexprvalue>
@@ -228,8 +216,8 @@
     </tag>
 
     <tag>
-        <name>pageinfo</name>
-        <tag-class>com.modoop.zerg.taipan.core.web.taglib.form.HtmlPageinfoTag</tag-class>
+        <name>entryinfo</name>
+        <tag-class>com.modoop.zerg.taipan.core.web.taglib.HtmlEntryinfoTag</tag-class>
         <body-content>empty</body-content>
 
         <attribute>
@@ -257,16 +245,23 @@
             <type>java.util.Locale</type>
         </attribute>
         <attribute>
-            <name>localeRef</name>
-            <required>false</required>
-            <rtexprvalue>true</rtexprvalue>
-            <type>java.lang.String</type>
-        </attribute>
-        <attribute>
             <name>page</name>
             <required>true</required>
             <rtexprvalue>true</rtexprvalue>
             <type>com.modoop.zerg.taipan.core.entity.page.Page</type>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>message</name>
+        <tag-class>com.modoop.zerg.taipan.core.web.taglib.HtmlMessageTag</tag-class>
+        <body-content>empty</body-content>
+
+        <attribute>
+            <name>message</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>com.modoop.zerg.taipan.core.i18n.I18NMessage</type>
         </attribute>
     </tag>
 

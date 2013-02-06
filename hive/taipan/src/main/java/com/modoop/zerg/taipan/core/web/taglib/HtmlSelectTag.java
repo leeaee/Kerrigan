@@ -1,12 +1,10 @@
-package com.modoop.zerg.taipan.core.web.taglib.form;
+package com.modoop.zerg.taipan.core.web.taglib;
 
-import com.modoop.zerg.taipan.core.web.taglib.HtmlTag;
 import org.apache.commons.beanutils.PropertyUtils;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * @author: Genkyo Lee
@@ -116,8 +114,6 @@ public class HtmlSelectTag extends HtmlTag
     public int doStartTag() throws JspException
     {
         JspWriter out = pageContext.getOut();
-
-        Locale curLocale = getCurrentLocale();
 
         StringBuffer html = new StringBuffer("<select");
 

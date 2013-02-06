@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=1280"/>
     <meta name="description" content=""/>
     <meta name="author" content=""/>
-    <link href="${ctx}/static/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+    <link href="${ctx}/static/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="${ctx}/static/buddy/css/buddy.css" rel="stylesheet"/>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>

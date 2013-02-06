@@ -1,25 +1,23 @@
 package com.modoop.zerg.orochi.exception;
 
-import com.modoop.zerg.taipan.core.jersey.JerseyException;
-
-import javax.ws.rs.core.Response;
+import com.modoop.zerg.taipan.core.web.exception.WebException;
 
 /**
+ * Exception thrown when some entity has already existed.
+ *
  * @author: Genkyo Lee
- * @date: 6/1/12
  */
-public class EntityAlreadyExistException extends JerseyException
+public class EntityAlreadyExistException extends WebException
 {
     private static final long serialVersionUID = -8396495368045207838L;
 
     //Properties
-    private static final String BASE_MSG = "{0} {1} already exist!";
-    public static final Response.Status ALREADY_EXISTED = Response.Status.CONFLICT;
+    private static final String BASE_KEY = "exception.entity.exist";
 
     //Constructors
     public EntityAlreadyExistException(String msg)
     {
-        super(ALREADY_EXISTED, msg);
+        super(msg);
     }
 
     /**
@@ -27,11 +25,11 @@ public class EntityAlreadyExistException extends JerseyException
      * throw new EntityAlreadyExistException("entity.user", "genkyo");
      * </pre>
      *
-     * @param entityKey
-     * @param entityValue
+     * @param entityKey 实体的类型的字典key
+     * @param entityId  实体的主键
      */
-    public EntityAlreadyExistException(String entityKey, Object entityValue)
+    public EntityAlreadyExistException(String entityKey, Object entityId)
     {
-        super(ALREADY_EXISTED, BASE_MSG, new Object[]{entityKey, entityValue});
+        super(BASE_KEY, new Object[]{"{" + entityKey + "}", entityId});
     }
 } // end class

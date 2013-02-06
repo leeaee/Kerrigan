@@ -54,15 +54,14 @@ html, body
 .form-search
 {
     width: 100%;
-    padding: 10px 0;
-    margin-bottom: 20px;
-    background-color: #f5f5f5;
+    background-color: #f7f7f7;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
     -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
     -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
     box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+    border: 1px solid #e7e7e7;
 }
 
 
@@ -192,12 +191,40 @@ table.data td:first-child
     padding: 7px 0 9px;
 }
 
-table.page
+table.form
 {
     width: 100%;
 }
 
-table.page td.desc
+table.form td
+{
+    width: 25%;
+    padding: 0 5px 10px;
+}
+
+table.form td:first-child
+{
+    padding-left: 0;
+}
+
+table.form td:last-child
+{
+    padding-right: 0;
+}
+
+table.form td.bottom
+{
+    padding-top: 5px;
+    padding-bottom: 0;
+    text-align: right;
+}
+
+table.data-nav
+{
+    width: 100%;
+}
+
+table.data-nav td:first-child
 {
     width: 200px;
     vertical-align: top;
@@ -221,6 +248,16 @@ table.page td.desc
 
 /*  Misc
 --------------------------------------------*/
+.span-content
+{
+    width: 930px;
+}
+
+.span-side
+{
+    width: 210px;
+}
+
 .control-group .align
 {
     padding-top: 5px;
@@ -237,11 +274,6 @@ table.page td.desc
     width: auto;
     max-width: 1200px;
     margin: 0 auto;
-}
-
-.right-float
-{
-    float: right;
 }
 
 .left

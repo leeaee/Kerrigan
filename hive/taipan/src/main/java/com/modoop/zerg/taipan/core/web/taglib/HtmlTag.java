@@ -18,7 +18,6 @@ public class HtmlTag extends TagSupport
     protected String cssStyle;
     protected String decorate;
     protected Locale locale;
-    protected String localeRef;
 
     //Constructor
     protected HtmlTag()
@@ -87,29 +86,12 @@ public class HtmlTag extends TagSupport
         this.locale = locale;
     }
 
-    public String getLocaleRef()
-    {
-        return localeRef;
-    }
-
-    public void setLocaleRef(String localeRef)
-    {
-        this.localeRef = localeRef;
-    }
-
     protected Locale getCurrentLocale()
     {
         // decide the locale to translate texts
         if (this.locale == null)
         {
-            if (localeRef != null && localeRef.length() > 0)
-            {
-                locale = (Locale) pageContext.getSession().getAttribute(localeRef);
-            }
-            else
-            {
-                locale = Locale.getDefault();
-            }
+            locale = pageContext.getRequest().getLocale();
         }
 
         return locale;

@@ -51,7 +51,7 @@ public class AdminService
         return admin;
     }
 
-    public Admin createAdmin(Admin admin) throws EntityAlreadyExistException, EntityNotFoundException
+    public Admin createAdmin(Admin admin)
     {
         admin.setPassword(MD5Uitls.getHashString(admin.getPassword()));
         admin.setCreateTime(System.currentTimeMillis());
@@ -93,6 +93,11 @@ public class AdminService
             memcachedClient.set(MemcachedObjectType.ADMIN_ROLE.getPrefix() + name, role, MemcachedObjectType.ADMIN_ROLE.getExpiredTime());
         }
         return role;
+    }
+
+    public boolean checkAdminNotExist(String name) throws EntityAlreadyExistException
+    {
+        return adminDao.checkAdminNotExist(name);
     }
 
     @Autowired

@@ -3,6 +3,9 @@ package com.modoop.zerg.taipan.core.web.exception;
 import com.modoop.zerg.taipan.core.i18n.I18NException;
 
 /**
+ * Base Exception Class in EWWeb Projects which extends from I18NException. <p /> All other Exception which needs to
+ * implements I18N should extends from this exception class.
+ *
  * @author: Genkyo Lee
  */
 public class WebException extends I18NException

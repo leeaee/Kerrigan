@@ -9,28 +9,30 @@ $(document).ready(function()
         $('[rel="tooltip"]').tooltip({placement:'top'});
     }
 
-    $(':input.sbtn, :input.mbtn, :button.sbtn, :button.mbtn').each(function()
-    {
-        $(this).attr('disabled', 'disabled');
-    });
-    updateButton();
+    updateButtons();
 });
 
 
-submitForm = function (obj, uri)
+submitForm = function(id, uri, method)
 {
-    obj.action = uri;
-    obj.submit();
+    var form = $('#' + id);
+    form.attr('action', uri);
+    form.attr('method', method);
+    form.submit();
 };
 
-confirmSubmit = function (obj, uri, method, msg)
+/**
+ * This method only allow submit one value to redirect url.
+ * if more values are select, return first value to uri.
+ *
+ * id: target form id;
+ * uri: submit uri;
+ * name: element name.
+ */
+submitUri = function(id, uri, name)
 {
-    if (window.confirm(msg))
-    {
-        if (uri != null) obj.action = uri;
-        obj.method = method;
-        obj.submit();
-    }
+    var value = $('#' + id + ' :checkbox[name="'+ name + '"][checked]:first').val();
+    window.location.href = uri + '/' + value;
 };
 
 redirect = function(url)
@@ -38,33 +40,12 @@ redirect = function(url)
     window.location.href = url;
 };
 
-submitUrl = function(url, value)
-{
-    window.location.href = url + '/' + value;
-};
-
-deleteSubmit = function(uri, obj, msg, value)
-{
-    if (window.confirm(msg))
-    {
-        obj.method = 'post';
-        obj.action = uri;
-        $('#deletes').val(value);
-        obj.submit();
-    }
-};
-
-postSubmit = function()
-{
-
-};
-
 back = function ()
 {
     window.history.back();
 };
 
-updateButton = function()
+updateButtons = function()
 {
     var i = 0;
 
@@ -73,24 +54,33 @@ updateButton = function()
         if($(this).attr('checked')) i++;
     });
 
-    $(':input.sbtn, :input.mbtn').each(function()
-    {
-        $(this).attr('disabled', 'disabled');
-    });
-
     if(i > 0)
     {
-        $(':input.mbtn').each(function()
+        $('.mbtn').each(function()
         {
             $(this).removeAttr('disabled');
+        });
+    }
+    else
+    {
+        $('.mbtn').each(function()
+        {
+            $(this).attr('disabled', 'disabled');
         });
     }
 
     if(i == 1)
     {
-        $(':input.sbtn').each(function()
+        $('.sbtn').each(function()
         {
             $(this).removeAttr('disabled');
+        });
+    }
+    else
+    {
+        $('.sbtn').each(function()
+        {
+            $(this).attr('disabled', 'disabled');
         });
     }
 };
@@ -102,5 +92,28 @@ getCheckedValues = function(name)
     {
         values[index] = $(this).val();
     });
-    return  values;
+    return values;
+};
+
+validateForm = function(id, url)
+{
+    var req = $.ajax
+    ({
+        type: 'POST',
+        async: false,
+        url:  url,
+        dataType: 'text',
+        data: $('#' + id).serialize()
+    });
+
+    req.success(function()
+    {
+        $('#' + id).submit();
+    });
+
+    req.error(function (xhr/*, status, exception*/) {
+        var res = $.parseJSON(xhr.responseText);
+        $('.alert > p > span').html(res.message);
+        $('.alert').show();
+    });
 };

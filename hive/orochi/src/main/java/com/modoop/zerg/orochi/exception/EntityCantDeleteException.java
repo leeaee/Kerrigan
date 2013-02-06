@@ -1,25 +1,22 @@
 package com.modoop.zerg.orochi.exception;
 
-import com.modoop.zerg.taipan.core.jersey.JerseyException;
-
-import javax.ws.rs.core.Response;
+import com.modoop.zerg.taipan.core.web.exception.WebException;
 
 /**
  * @author: Genkyo Lee
  * @date: 6/10/12
  */
-public class EntityCantDeleteException extends JerseyException
+public class EntityCantDeleteException extends WebException
 {
     private static final long serialVersionUID = -7898723804039235423L;
 
     //Properties
-    private static final String BASE_MSG = "{0} {1} can't be deleted!";
-    public static final Response.Status CANT_DELETE = Response.Status.CONFLICT;
+    private static final String BASE_KEY = "exception.entity.cantdelete";
 
     //Constructor
     public EntityCantDeleteException(String msg)
     {
-        super(CANT_DELETE, msg);
+        super(msg);
     }
 
 
@@ -31,8 +28,8 @@ public class EntityCantDeleteException extends JerseyException
      * @param entityKey
      * @param entityValue
      */
-    public EntityCantDeleteException(String entityKey, Object entityValue)
+    public EntityCantDeleteException(String entityKey, Object entityId)
     {
-        super(CANT_DELETE, BASE_MSG, new Object[]{entityKey, entityValue});
+        super(BASE_KEY, new Object[]{"{" + entityKey + "}", entityId});
     }
 } // end class
