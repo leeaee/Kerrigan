@@ -4,12 +4,10 @@
 
 $(document).ready(function()
 {
-    if ($('[rel=tooltip]').length > 0)
-    {
-        $('[rel="tooltip"]').tooltip({placement:'top'});
-    }
-
+    initTooltips();
+    initPopovers();
     updateButtons();
+    validateForms();
 });
 
 
@@ -27,11 +25,11 @@ submitForm = function(id, uri, method)
  *
  * id: target form id;
  * uri: submit uri;
- * name: element name.
+ * name: checkbox name.
  */
 submitUri = function(id, uri, name)
 {
-    var value = $('#' + id + ' :checkbox[name="'+ name + '"][checked]:first').val();
+    var value = $('#' + id + ' :checkbox[name="'+ name + '"]:checked:first').val();
     window.location.href = uri + '/' + value;
 };
 
@@ -47,43 +45,65 @@ back = function ()
 
 updateButtons = function()
 {
-    var i = 0;
+    if ($('table.data :checkbox').length > 0)
+    {
+        var i = $('table.data :checked').length;
 
-    $('table.data :checkbox').each(function()
-    {
-        if($(this).attr('checked')) i++;
-    });
+        if(i > 0)
+        {
+            $('.mbtn').each(function()
+            {
+                $(this).removeAttr('disabled');
+            });
+        }
+        else
+        {
+            $('.mbtn').each(function()
+            {
+                $(this).attr('disabled', 'disabled');
+            });
+        }
 
-    if(i > 0)
-    {
-        $('.mbtn').each(function()
+        if(i == 1)
         {
-            $(this).removeAttr('disabled');
-        });
-    }
-    else
-    {
-        $('.mbtn').each(function()
+            $('.sbtn').each(function()
+            {
+                $(this).removeAttr('disabled');
+            });
+        }
+        else
         {
-            $(this).attr('disabled', 'disabled');
-        });
+            $('.sbtn').each(function()
+            {
+                $(this).attr('disabled', 'disabled');
+            });
+        }
     }
+};
 
-    if(i == 1)
+
+initTooltips = function()
+{
+    var tooltips = $('[rel="tooltip"]');
+    if (tooltips.length > 0)
     {
-        $('.sbtn').each(function()
-        {
-            $(this).removeAttr('disabled');
-        });
+        tooltips.tooltip({placement:'top'});
     }
-    else
+};
+
+initPopovers = function()
+{
+    var popovers = $('input[rel="popover"]');
+    if (popovers.length > 0)
     {
-        $('.sbtn').each(function()
+        popovers.popover(
         {
-            $(this).attr('disabled', 'disabled');
+            title: 'Tips',
+            trigger: 'focus'
         });
     }
 };
+
 
 getCheckedValues = function(name)
 {
@@ -95,25 +115,77 @@ getCheckedValues = function(name)
     return values;
 };
 
-validateForm = function(id, url)
+
+validateForms = function()
 {
-    var req = $.ajax
-    ({
-        type: 'POST',
-        async: false,
-        url:  url,
-        dataType: 'text',
-        data: $('#' + id).serialize()
-    });
-
-    req.success(function()
+    var forms = $('form');
+    if (forms.length > 0)
     {
-        $('#' + id).submit();
-    });
+        forms.each(function()
+        {
+            $(this).submit(function()
+            {
+                if(typeof($(this).attr('validate-uri')) == "undefined")
+                {
+                    return true;
+                }
 
-    req.error(function (xhr/*, status, exception*/) {
-        var res = $.parseJSON(xhr.responseText);
-        $('.alert > p > span').html(res.message);
-        $('.alert').show();
-    });
+                var submit = false;
+                var req = $.ajax
+                ({
+                    type: 'POST',
+                    async: false,
+                    url: $(this).attr('validate-uri'),
+                    dataType: 'text',
+                    data: $(this).serialize()
+                });
+
+                req.success(function()
+                {
+                    submit = true;
+                });
+
+                req.error(function(xhr/*, status, exception*/)
+                {
+                    var div = $('.alert');
+                    var res = $.parseJSON(xhr.responseText);
+                    $('.alert > p').remove();
+                    div.append('<p>');
+                    $.each(res.message, function(index, value)
+                    {
+                        $('.alert > p').append(value + '<br>');
+                    });
+                    div.show();
+                });
+
+                return submit;
+            });
+        })
+    }
 };
+
+changeLang = function(newLang)
+{
+    var search = location.search;
+    var url;
+
+    if (search.length == 0)
+    {
+        url = "?lang=" + newLang;
+    }
+    else
+    {
+        if (search.indexOf("lang=") > -1)
+        {
+            var origin = search.substring(0, search.lastIndexOf("lang="));
+            url = origin + "lang=" + newLang;
+        }
+        else
+        {
+            url = search + "&" + "lang=" + newLang;
+        }
+    }
+
+    location.href = url;
+};
+

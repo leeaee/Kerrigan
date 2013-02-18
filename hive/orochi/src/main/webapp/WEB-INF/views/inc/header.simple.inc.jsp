@@ -4,8 +4,9 @@
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ taglib prefix="html" uri="http://www.modoop.com/html/tags" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
+<c:set var="loc" value="${pageContext.response.locale}"/>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="${loc}">
 <head>
     <meta charset="utf-8">
     <title>Administrator Center</title>

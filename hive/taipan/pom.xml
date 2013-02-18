@@ -55,12 +55,12 @@
         </dependency>
         <!-- cache -->
         <dependency>
-            <groupId>com.googlecode.xmemcached</groupId>
-            <artifactId>xmemcached</artifactId>
-        </dependency>
-        <dependency>
             <groupId>spy</groupId>
             <artifactId>spymemcached</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
         </dependency>
         <!-- slf4j -->
         <dependency>

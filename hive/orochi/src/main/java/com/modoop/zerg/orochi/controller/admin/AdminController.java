@@ -5,9 +5,11 @@ import com.modoop.zerg.orochi.entity.admin.Role;
 import com.modoop.zerg.orochi.exception.EntityAlreadyExistException;
 import com.modoop.zerg.orochi.exception.EntityNotFoundException;
 import com.modoop.zerg.orochi.service.AdminService;
+import com.modoop.zerg.orochi.validator.checks.OrderedChecks;
 import com.modoop.zerg.taipan.core.entity.ajax.AjaxResponse;
 import com.modoop.zerg.taipan.core.i18n.I18NMessage;
 import com.modoop.zerg.taipan.core.util.Servlets;
+import com.modoop.zerg.taipan.core.validator.BeanValidators;
 import com.modoop.zerg.taipan.core.web.controller.AbstractController;
 import com.modoop.zerg.taipan.core.web.exception.WebException;
 import com.modoop.zerg.taipan.core.web.view.Button;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletRequest;
+import javax.validation.Validator;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +32,8 @@ import java.util.Map;
 public class AdminController extends AbstractController
 {
     private AdminService adminService;
+
+    private Validator validator;
 
     /**
      * 管理员浏览
@@ -81,7 +86,7 @@ public class AdminController extends AbstractController
 
         I18NMessage message = new I18NMessage("msg.ok", new I18NMessage("msg.admin.create", admin.getName()));
         String action = "location.href = '" + context.getContextPath() + "/admin/detail/" + admin.getName() + "'";
-        Button button = new Button(new I18NMessage("act.admin.details"), action, "btn btn-small btn-success");
+        Button button = new Button(new I18NMessage("act.admin.details"), action, "btn btn-success");
         handleMessage(redirectAttributes, message, button);
 
         return "redirect:/admin/browse";
@@ -115,7 +120,7 @@ public class AdminController extends AbstractController
 
         I18NMessage message = new I18NMessage("msg.ok", new I18NMessage("msg.admin.update", admin.getName()));
         String action = "location.href = '" + context.getContextPath() + "/admin/detail/" + admin.getName() + "'";
-        Button button = new Button(new I18NMessage("act.admin.details"), action, "btn btn-small btn-success");
+        Button button = new Button(new I18NMessage("act.admin.details"), action, "btn btn-success");
         handleMessage(redirectAttributes, message, button);
 
         return "redirect:/admin/browse";
@@ -156,6 +161,7 @@ public class AdminController extends AbstractController
     public String validate(@ModelAttribute Admin admin) throws EntityAlreadyExistException
     {
         logger.debug("Validate admin {}", admin);
+        BeanValidators.validateWithException(validator, admin, OrderedChecks.class);
         boolean success = adminService.checkAdminNotExist(admin.getName());
         AjaxResponse response = new AjaxResponse();
         response.setSuccess(success);
@@ -167,7 +173,8 @@ public class AdminController extends AbstractController
      * 不自动绑定对象中的roleIds属性，另行处理。
      */
     @InitBinder
-    protected void initBinder(WebDataBinder binder) {
+    protected void initBinder(WebDataBinder binder)
+    {
         binder.setDisallowedFields("roleIds");
     }
 
@@ -175,5 +182,11 @@ public class AdminController extends AbstractController
     public void setAdminService(AdminService adminService)
     {
         this.adminService = adminService;
+    }
+
+    @Autowired
+    public void setValidator(Validator validator)
+    {
+        this.validator = validator;
     }
 }

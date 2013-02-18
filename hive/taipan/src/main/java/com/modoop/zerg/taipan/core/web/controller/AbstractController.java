@@ -5,6 +5,7 @@ import com.modoop.zerg.taipan.core.constant.Constants;
 import com.modoop.zerg.taipan.core.entity.ajax.AjaxResponse;
 import com.modoop.zerg.taipan.core.i18n.I18NMessage;
 import com.modoop.zerg.taipan.core.mapper.JsonMapper;
+import com.modoop.zerg.taipan.core.validator.BeanValidators;
 import com.modoop.zerg.taipan.core.web.exception.WebException;
 import com.modoop.zerg.taipan.core.web.view.Button;
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletContext;
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.Locale;
 
@@ -69,14 +71,25 @@ public abstract class AbstractController
     }
 
 
-    @ExceptionHandler({WebException.class})
+    @ExceptionHandler(WebException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public @ResponseBody String handleException(WebException exception, Locale locale)
     {
         String error = exception.getMessage(locale);
-        logger.warn(error);
         AjaxResponse res = new AjaxResponse(false);
-        res.setMessage(error);
+        res.getMessage().add(error);
+        logger.warn(jsonMapper.toJson(res));
+        return jsonMapper.toJson(res);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public @ResponseBody String handleException(ConstraintViolationException exception)
+    {
+        List<String> messages = BeanValidators.extractMessage(exception);
+        AjaxResponse res = new AjaxResponse(false);
+        res.setMessage(messages);
+        logger.warn(jsonMapper.toJson(res));
         return jsonMapper.toJson(res);
     }
 }

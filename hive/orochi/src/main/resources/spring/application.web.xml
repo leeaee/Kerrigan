@@ -31,13 +31,21 @@
         <property name="cookieName" value="locale-language-setting"/>
         <!-- in seconds. If set to -1, the cookie is not persisted (deleted when browser shuts down) -->
         <property name="cookieMaxAge" value="604800"/>
+        <property name="defaultLocale" value="en_US"/>
     </bean>
-    
-    <mvc:interceptors> 
+
+    <mvc:interceptors>
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
             <property name="paramName" value="lang"/>
         </bean>
-    </mvc:interceptors> 
+    </mvc:interceptors>
+
+    <!-- JSR303 Validator定义 -->
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <property name="messageInterpolator">
+            <bean class="com.modoop.zerg.taipan.core.i18n.I18NMessageInterpolator"/>
+        </property>
+    </bean>
 
     <!-- 国际化设置 -->
     <bean class="com.modoop.zerg.taipan.core.i18n.I18NDictionary" p:messageSource-ref="messageSource"/>

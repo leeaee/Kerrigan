@@ -1,35 +1,51 @@
 package com.modoop.zerg.orochi.entity.admin;
 
 import com.google.common.collect.Lists;
+import com.modoop.zerg.orochi.validator.checks.FeatureChecks;
 import com.modoop.zerg.taipan.core.mapper.JsonMapper;
 import com.modoop.zerg.taipan.core.util.CollectionUtils;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.List;
 
 /**
  * @author: Genkyo Lee
- * @date: 4/28/12
  */
 public class Admin implements Serializable
 {
     private static final long serialVersionUID = -8298838450565454455L;
+
     public static final String KEY = "entity.admin";
 
     //Properties
     private Long id;
+
     private String name;
-    private String password;
+
     private String trueName;
+
+    private String password;
+
     private String phone;
+
     private String mobile;
+
     private String email;
+
     private Integer state;
+
     private String description;
+
     private Long lastModify;
+
     private Long createTime;
 
     private List<Role> roles = Lists.newArrayList();
+
 
     //Constructors
     public Admin()
@@ -47,6 +63,7 @@ public class Admin implements Serializable
         this.name = name;
     }
 
+
     //Methods
     public Long getId()
     {
@@ -58,6 +75,8 @@ public class Admin implements Serializable
         this.id = id;
     }
 
+    @NotBlank(message = "valid.adminName.notblank")
+    @Pattern(regexp = "^[a-z0-9.]+$", message = "valid.adminName.regexp", groups = FeatureChecks.class)
     public String getName()
     {
         return name;
@@ -68,16 +87,6 @@ public class Admin implements Serializable
         this.name = name;
     }
 
-    public String getPassword()
-    {
-        return password;
-    }
-
-    public void setPassword(String password)
-    {
-        this.password = password;
-    }
-
     public String getTrueName()
     {
         return trueName;
@@ -86,6 +95,18 @@ public class Admin implements Serializable
     public void setTrueName(String trueName)
     {
         this.trueName = trueName;
+    }
+
+    @NotBlank(message = "valid.password.notblank")
+    @Length(min = 6, max = 15, message = "valid.password.length", groups = FeatureChecks.class)
+    public String getPassword()
+    {
+        return password;
+    }
+
+    public void setPassword(String password)
+    {
+        this.password = password;
     }
 
     public String getPhone()
@@ -108,6 +129,7 @@ public class Admin implements Serializable
         this.mobile = mobile;
     }
 
+    @Email(message = "valid.email", groups = FeatureChecks.class)
     public String getEmail()
     {
         return email;

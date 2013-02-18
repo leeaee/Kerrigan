@@ -91,7 +91,7 @@ public class HtmlTag extends TagSupport
         // decide the locale to translate texts
         if (this.locale == null)
         {
-            locale = pageContext.getRequest().getLocale();
+            locale = pageContext.getResponse().getLocale();
         }
 
         return locale;

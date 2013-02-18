@@ -6,7 +6,7 @@
     </div>
 
     <div id="footer">
-        <p class="muted credit">&copy; 2012 Modoop</p>
+        <p class="muted credit">&copy; 2013 Modoop</p>
     </div>
 
     <script type="text/javascript" src="${ctx}/static/jquery/js/jquery.min.js"></script>

@@ -3,23 +3,23 @@
 
         <div id="content-login" class="container">
             <form class="form-signin" action="${ctx}/login" method="post">
-                <legend><h3>Sign-in</h3></legend>
+                <legend><h3><fmt:message key="label.signin"/></h3></legend>
                 <div class="control-group">
-                    <label for="username" class="required">Username</label>
+                    <label for="username" class="required"><fmt:message key="label.username"/></label>
                     <div class="controls">
-                        <input type="text" id="username" name="username" value="${username}" class="input-block-level" placeholder="Username"/>
+                        <input type="text" id="username" name="username" value="${username}" class="input-block-level" placeholder="<fmt:message key="hold.username"/>"/>
                     </div>
                 </div>
                 <div class="control-group">
-                    <label for="password" class="required">Password</label>
+                    <label for="password" class="required"><fmt:message key="label.password"/></label>
                     <div class="controls">
-                        <input type="password" id="password" name="password" class="input-block-level" placeholder="Password"/>
+                        <input type="password" id="password" name="password" class="input-block-level" placeholder="<fmt:message key="hold.password"/>"/>
                     </div>
                 </div>
                 <div class="control-group">
-                    <button id="submit" class="btn btn-primary" type="submit">Sign in</button>
+                    <button id="submit" class="btn btn-primary" type="submit"><fmt:message key="act.signin"/></button>
                     <label class="checkbox inline" for="rememberMe">
-                        <input type="checkbox" id="rememberMe" name="rememberMe"/> Remember me
+                        <input type="checkbox" id="rememberMe" name="rememberMe"/> <fmt:message key="label.remember"/>
                     </label>
                 </div>
             </form>

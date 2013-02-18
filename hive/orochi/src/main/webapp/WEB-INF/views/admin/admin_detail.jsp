@@ -21,41 +21,41 @@
                     <form id="form-detail" action="" method="post" class="form-horizontal">
                         <input type="hidden" name="name" value="${admin.name}" />
                         <fieldset>
-                            <legend><small class="form-head">Administrator</small></legend>
+                            <legend><small class="form-head"><fmt:message key="entity.admin"/></small></legend>
                             <div class="control-group">
-                                <label class="control-label">Name</label>
+                                <label class="control-label text-bold"><fmt:message key="prop.admin.name"/></label>
                                 <div class="controls align">${admin.name}</div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">True Name</label>
+                                <label class="control-label text-bold"><fmt:message key="prop.truename"/></label>
                                 <div class="controls align">${admin.trueName}</div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">Phone</label>
+                                <label class="control-label text-bold"><fmt:message key="prop.phone"/></label>
                                 <div class="controls align">${admin.phone}</div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">Mobile</label>
+                                <label class="control-label text-bold"><fmt:message key="prop.mobile"/></label>
                                 <div class="controls align">${admin.mobile}</div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">Email</label>
+                                <label class="control-label text-bold"><fmt:message key="prop.email"/></label>
                                 <div class="controls align">${admin.email}</div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">Admin Role</label>
+                                <label class="control-label text-bold"><fmt:message key="prop.admin.role"/></label>
                                 <div class="controls align">${admin.roleNames}</div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">Last Modify</label>
+                                <label class="control-label text-bold"><fmt:message key="prop.lastModify"/></label>
                                 <div class="controls align"><html:joda pattern="yyyy-MM-dd hh:mm" locale="${loc}" value="${admin.lastModify}"/></div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">Create Time</label>
+                                <label class="control-label text-bold"><fmt:message key="prop.createTime"/></label>
                                 <div class="controls align"><html:joda pattern="yyyy-MM-dd hh:mm" locale="${loc}" value="${admin.createTime}"/></div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">Description</label>
+                                <label class="control-label text-bold"><fmt:message key="prop.description"/></label>
                                 <div class="controls align">${admin.description}</div>
                             </div>
                             <div class="form-actions form-foot">
@@ -73,14 +73,14 @@
                     <div id="confirmModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h3 id="confirmModalLabel">Confirm delete</h3>
+                            <h3 id="confirmModalLabel"><fmt:message key="label.delete.confirm"/></h3>
                         </div>
                         <div class="modal-body">
-                            <p>Are you sure?</p>
+                            <p><fmt:message key="msg.confirm"/></p>
                         </div>
                         <div class="modal-footer">
-                            <input type="button" onclick="submitForm('form-detail', '${ctx}/admin/delete', 'post')" value="OK" class="btn btn-primary"/>
-                            <input type="button" class="btn" data-dismiss="modal" aria-hidden="true" value="Close"/>
+                            <input type="button" onclick="submitForm('form-detail', '${ctx}/admin/delete', 'post')" value="<fmt:message key="act.ok"/>" class="btn btn-primary"/>
+                            <input type="button" class="btn" data-dismiss="modal" aria-hidden="true" value="<fmt:message key="act.cancel"/>"/>
                         </div>
                     </div>
                     </shiro:hasPermission>

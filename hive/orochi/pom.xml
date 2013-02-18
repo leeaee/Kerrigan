@@ -92,6 +92,11 @@
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-web</artifactId>
         </dependency>
+        <!-- Validator -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
         <!-- LOGGING -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -117,10 +122,6 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time-jsptags</artifactId>
         </dependency>
 
         <dependency>

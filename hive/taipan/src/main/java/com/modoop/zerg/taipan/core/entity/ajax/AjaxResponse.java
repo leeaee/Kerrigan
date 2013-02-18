@@ -1,6 +1,9 @@
 package com.modoop.zerg.taipan.core.entity.ajax;
 
+import com.google.common.collect.Lists;
+
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Ajax Response
@@ -12,7 +15,7 @@ public class AjaxResponse implements Serializable
     private static final long serialVersionUID = 4164404666097115858L;
 
     private boolean success;
-    private String message;
+    private List<String> message = Lists.newArrayList();
     private String html;
     private int code;
 
@@ -35,12 +38,12 @@ public class AjaxResponse implements Serializable
         this.success = success;
     }
 
-    public String getMessage()
+    public List<String> getMessage()
     {
         return message;
     }
 
-    public void setMessage(String message)
+    public void setMessage(List<String> message)
     {
         this.message = message;
     }

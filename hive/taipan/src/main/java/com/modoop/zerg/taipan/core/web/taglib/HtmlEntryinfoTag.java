@@ -16,7 +16,7 @@ public class HtmlEntryinfoTag<T> extends HtmlTag
     // Properties
     private static final long serialVersionUID = -2747842035854074161L;
 
-    public static final String MSG_KEY_DISPLAY_RANGE = "tag.navigator.listrange";
+    public static final String MSG_KEY_DISPLAY_RANGE = "tag.navigator.info.range";
 
     private Page<T> page;
 

@@ -21,66 +21,66 @@
                     <form id="form-update" action="${ctx}/admin/update" method="post" class="form-horizontal">
                         <input type="hidden" name="id" value="${admin.id}"/>
                         <fieldset>
-                            <legend><small class="form-head">Administrator</small></legend>
+                            <legend><small class="form-head"><fmt:message key="entity.admin"/></small></legend>
                             <div class="control-group">
-                                <label class="control-label" for="name">Admin Name</label>
+                                <label class="control-label text-bold" for="name"><fmt:message key="prop.admin.name"/></label>
                                 <div class="controls">
                                     <input type="text" id="name" name="name" value="${admin.name}" placeholder="" maxlength="63" readonly="true"/>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label" for="trueName">True Name</label>
+                                <label class="control-label text-bold" for="trueName"><fmt:message key="prop.truename"/></label>
                                 <div class="controls">
                                     <input type="text" id="trueName" name="trueName" value="${admin.trueName}" placeholder="" maxlength="63"/>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label" for="password">Password</label>
+                                <label class="control-label text-bold" for="password"><fmt:message key="prop.password"/></label>
                                 <div class="controls">
-                                    <input type="password" id="password" name="password" placeholder="" maxlength="20"/>
+                                    <input type="password" id="password" name="password" placeholder="" maxlength="20" rel="popover" data-content="<fmt:message key="para.password.strength"/>"/>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label" for="pwdCfm">Confirm Password</label>
+                                <label class="control-label text-bold" for="pwdCfm"><fmt:message key="prop.pwdCfm"/></label>
                                 <div class="controls">
                                     <input type="password" id="pwdCfm" name="pwdCfm" placeholder="" maxlength="20"/>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label" for="phone">Phone</label>
+                                <label class="control-label text-bold" for="phone"><fmt:message key="prop.phone"/></label>
                                 <div class="controls">
                                     <input type="text" id="phone" name="phone" value="${admin.phone}" placeholder="" maxlength="20"/>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label" for="mobile">Mobile</label>
+                                <label class="control-label text-bold" for="mobile"><fmt:message key="prop.mobile"/></label>
                                 <div class="controls">
                                     <input type="text" id="mobile" name="mobile" value="${admin.mobile}" placeholder="" maxlength="20"/>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label" for="email">Email</label>
+                                <label class="control-label text-bold" for="email"><fmt:message key="prop.email"/></label>
                                 <div class="controls">
                                     <input type="text" id="email" name="email" value="${admin.email}" placeholder="" maxlength="20"/>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label" for="roleIds">Admin Role</label>
+                                <label class="control-label text-bold" for="roleIds"><fmt:message key="prop.admin.role"/></label>
                                 <div class="controls">
                                     <html:select id="roleIds" name="roleIds" items="${roles}" itemValue="id" itemLabel="name" selected="${admin.roleIds}"/>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label" for="description">Description</label>
+                                <label class="control-label text-bold" for="description"><fmt:message key="prop.description"/></label>
                                 <div class="controls">
                                     <textarea id="description" name="description" rows="5">${admin.description}</textarea>
                                 </div>
                             </div>
                             <div class="form-actions form-foot">
                                 <div class="btn-group">
-                                    <input type="submit" class="btn" value="Save"/>
-                                    <input type="reset" class="btn" value="Reset"/>
-                                    <input type="button" class="btn" value="Back" onclick="back()"/>
+                                    <input type="submit" class="btn" value="<fmt:message key="act.save"/>"/>
+                                    <input type="reset" class="btn" value="<fmt:message key="act.reset"/>"/>
+                                    <input type="button" class="btn" value="<fmt:message key="act.back"/>" onclick="back()"/>
                                 </div>
                             </div>
                         </fieldset>

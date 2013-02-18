@@ -1,6 +1,5 @@
 package com.modoop.zerg.taipan.core.util;
 
-import com.google.common.collect.Maps;
 import com.google.common.net.HttpHeaders;
 import com.modoop.zerg.taipan.core.constant.Constants;
 import org.apache.commons.lang3.Validate;

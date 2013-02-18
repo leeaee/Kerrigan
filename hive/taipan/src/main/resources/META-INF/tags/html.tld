@@ -258,6 +258,12 @@
         <body-content>empty</body-content>
 
         <attribute>
+            <name>locale</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.util.Locale</type>
+        </attribute>
+        <attribute>
             <name>message</name>
             <required>true</required>
             <rtexprvalue>true</rtexprvalue>

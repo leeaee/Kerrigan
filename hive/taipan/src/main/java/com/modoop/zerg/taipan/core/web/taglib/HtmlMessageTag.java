@@ -41,7 +41,7 @@ public class HtmlMessageTag extends HtmlTag
     @SuppressWarnings("unchecked")
     public int doStartTag() throws JspException
     {
-        Locale userLocale = pageContext.getRequest().getLocale();
+        Locale userLocale = getCurrentLocale();
         ServletRequest req = pageContext.getRequest();
 
         if (message != null)
@@ -52,21 +52,19 @@ public class HtmlMessageTag extends HtmlTag
             html.append("   <button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>\n");
 
             // output message
-            html.append("   <p>\n");
-            html.append("       <strong>").append(I18NDictionary.getMessage("msg.success", userLocale)).append("</strong>&nbsp;");
-            html.append(I18NDictionary.translate(message, userLocale)).append("\n");
-            html.append("   </p>\n");
+            html.append("   <h4 class=\"alert-label\">").append(I18NDictionary.getMessage("msg.done", userLocale)).append("</h4>");
+            html.append("   <p>").append(I18NDictionary.translate(message, userLocale)).append("\n").append("</p>\n");
 
             if (req.getAttribute(Constants.MESSAGE_BUTTONS) != null)
             {
                 //Output buttons
-                html.append("   <p>");
+                html.append("   <p>\n");
                 List<Button> buttons = (List<Button>) req.getAttribute(Constants.MESSAGE_BUTTONS);
                 for (Button button : buttons)
                 {
                     html.append(button.getHtml(userLocale));
                 }
-                html.append("</p>\n");
+                html.append("   </p>\n");
             }
 
             //Table end

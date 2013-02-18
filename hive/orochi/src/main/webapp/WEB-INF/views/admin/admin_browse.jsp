@@ -17,13 +17,13 @@
                         <li class="active"><fmt:message key="breadcrumb.browse"/></li>
                     </ul>
 
-                    <html:message message="<%=(I18NMessage) request.getAttribute(Constants.MESSAGE)%>"/>
+                    <html:message locale="${loc}" message="<%=(I18NMessage) request.getAttribute(Constants.MESSAGE)%>"/>
 
                     <fieldset>
-                    <legend><small class="form-head">Administrator</small></legend>
+                    <legend><small class="form-head"><fmt:message key="label.admin.browse"/></small></legend>
                     <form id="form-search" action="${ctx}/admin/browse" method="get" class="form-search">
-                        <div style="padding: 15px">
-                            <table class="form" border="0">
+                        <div>
+                            <table class="form">
                                 <tr>
                                     <td>
                                         <label><fmt:message key="prop.name"/></label><br>
@@ -57,14 +57,14 @@
                             <td>
                                 <shiro:hasPermission name="admin:change">
                                 <div class="btn-group">
-                                    <input type="button" id="create" value="<fmt:message key="breadcrumb.create"/>" class="btn" onclick="redirect('${ctx}/admin/create/form')"/>
-                                    <input type="button" id="edit" value="Edit" class="btn sbtn" onclick="submitUri('form-list', '${ctx}/admin/update', 'name')" disabled="disabled"/>
-                                    <input type="button" id="delete" value="Delete" class="btn mbtn" data-toggle="modal" data-target="#confirmModal" disabled="disabled"/>
+                                    <input type="button" id="create" value="<fmt:message key="act.create"/>" class="btn" onclick="redirect('${ctx}/admin/create/form')"/>
+                                    <input type="button" id="edit" value="<fmt:message key="act.edit"/>" class="btn sbtn" onclick="submitUri('form-list', '${ctx}/admin/update', 'name')" disabled="disabled"/>
+                                    <input type="button" id="delete" value="<fmt:message key="act.delete"/>" class="btn mbtn" data-toggle="modal" data-target="#confirmModal" disabled="disabled"/>
                                 </div>
                                 </shiro:hasPermission>
                             </td>
                             <td>
-                                <html:pagination name="pagination" page="${page}" cssClass="pagination pagination-right" cssStyle="margin: 0 0 10px 0"/>
+                                <html:pagination name="pagination" page="${page}" locale="${loc}" cssClass="pagination pagination-right" cssStyle="margin: 0 0 10px 0"/>
                             </td>
                         </tr>
                     </table>
@@ -76,17 +76,17 @@
                                 <th></th>
                                 <th><fmt:message key="prop.name"/></th>
                                 <th><fmt:message key="prop.truename"/></th>
-                                <th>Phone</th>
-                                <th>Mobile</th>
-                                <th>Email</th>
-                                <th>Create Time</th>
+                                <th><fmt:message key="prop.phone"/></th>
+                                <th><fmt:message key="prop.mobile"/></th>
+                                <th><fmt:message key="prop.email"/></th>
+                                <th><fmt:message key="prop.createTime"/></th>
                             </tr>
                             </thead>
                             <tbody>
                             <c:forEach items="${page.result}" var="admin">
                                 <tr>
                                     <td><input type="checkbox" id="chk_${admin.id}" name="name" value="${admin.name}" onclick="updateButtons()"/></td>
-                                    <td><a id="detail" href="${ctx}/admin/detail/${admin.name}" rel="tooltip" title="View detail">${admin.name}</a></td>
+                                    <td><a id="detail" href="${ctx}/admin/detail/${admin.name}" rel="tooltip" title="<fmt:message key="tip.detail"/>">${admin.name}</a></td>
                                     <td>${admin.trueName}</td>
                                     <td>${admin.phone}</td>
                                     <td>${admin.mobile}</td>
@@ -104,7 +104,7 @@
                                 <html:entryinfo name="pageinfo" page="${page}" locale="${loc}" cssClass="left"/>
                             </td>
                             <td>
-                                <html:pagination name="pagination" page="${page}" cssClass="pagination pagination-right" cssStyle="margin: 0"/>
+                                <html:pagination name="pagination" page="${page}" locale="${loc}" cssClass="pagination pagination-right" cssStyle="margin: 0"/>
                             </td>
                         </tr>
                      </table>
@@ -114,15 +114,15 @@
                 <shiro:hasPermission name="admin:change">
                 <div id="confirmModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h3 id="confirmModalLabel">Confirm delete</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 id="confirmModalLabel"><fmt:message key="label.delete.confirm"/></h3>
                     </div>
                     <div class="modal-body">
-                        <p>Are you sure?</p>
+                        <p><fmt:message key="msg.confirm"/></p>
                     </div>
                     <div class="modal-footer">
-                        <input type="button" onclick="submitForm('form-list', '${ctx}/admin/delete', 'post')" value="OK" class="btn btn-primary"/>
-                        <input type="button" class="btn" data-dismiss="modal" aria-hidden="true" value="Close"/>
+                        <input type="button" onclick="submitForm('form-list', '${ctx}/admin/delete', 'post')" value="<fmt:message key="act.ok"/>" class="btn btn-primary"/>
+                        <input type="button" class="btn" data-dismiss="modal" aria-hidden="true" value="<fmt:message key="act.cancel"/>"/>
                     </div>
                 </div>
                 </shiro:hasPermission>
