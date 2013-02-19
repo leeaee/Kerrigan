@@ -43,6 +43,7 @@ public class AdminController extends AbstractController
     public String browse(Model model, ServletRequest request)
     {
         Map<String, Object> parameters = Servlets.getParametersStartingWith(request, null);
+        model.addAttribute("roles", adminService.getAdminRoles());
         model.addAttribute("params", parameters);
         model.addAttribute("page", adminService.searchAdmins(parameters));
 

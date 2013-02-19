@@ -33,6 +33,7 @@ public abstract class AbstractController
     protected ServletContext context;
 
     protected static JsonMapper jsonMapper = JsonMapper.buildNonNullMapper();
+    protected static String separator = "=";
 
 
     /**
@@ -86,7 +87,7 @@ public abstract class AbstractController
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public @ResponseBody String handleException(ConstraintViolationException exception)
     {
-        List<String> messages = BeanValidators.extractMessage(exception);
+        List<String> messages = BeanValidators.extractPropertyAndMessageAsList(exception, separator);
         AjaxResponse res = new AjaxResponse(false);
         res.setMessage(messages);
         logger.warn(jsonMapper.toJson(res));

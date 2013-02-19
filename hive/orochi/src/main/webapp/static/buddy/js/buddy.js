@@ -30,12 +30,12 @@ submitForm = function(id, uri, method)
 submitUri = function(id, uri, name)
 {
     var value = $('#' + id + ' :checkbox[name="'+ name + '"]:checked:first').val();
-    window.location.href = uri + '/' + value;
+    window.location.href = encodeURI(uri + '/' + value);
 };
 
 redirect = function(url)
 {
-    window.location.href = url;
+    window.location.href = encodeURI(url);
 };
 
 back = function ()
@@ -115,15 +115,16 @@ getCheckedValues = function(name)
     return values;
 };
 
-
 validateForms = function()
 {
     var forms = $('form');
+    var separator = '=';
     if (forms.length > 0)
     {
         forms.each(function()
         {
-            $(this).submit(function()
+            var sform = $(this);
+            sform.submit(function()
             {
                 if(typeof($(this).attr('validate-uri')) == "undefined")
                 {
@@ -150,12 +151,29 @@ validateForms = function()
                     var div = $('.alert');
                     var res = $.parseJSON(xhr.responseText);
                     $('.alert > p').remove();
+                    $('.control-group').removeClass('error');
                     div.append('<p>');
                     $.each(res.message, function(index, value)
                     {
-                        $('.alert > p').append(value + '<br>');
+                        if (value.indexOf(separator) > 0)
+                        {
+                            var propertyAndMessage = value.split(separator);
+                            $('.alert > p').append(propertyAndMessage[1] + '<br>');
+                            var inputs = $(':input[name=' + propertyAndMessage[0] + ']', sform);
+                            if (inputs.length > 0)
+                            {
+                                inputs.each(function()
+                                {
+                                    $(this).closest('.control-group').addClass('error');
+                                });
+                            }
+                        }
+                        else
+                        {
+                            $('.alert > p').append(value + '<br>');
+                        }
                     });
-                    div.show();
+                    div.show().focus();
                 });
 
                 return submit;

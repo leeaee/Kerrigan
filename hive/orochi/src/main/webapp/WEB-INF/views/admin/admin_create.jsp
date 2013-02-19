@@ -64,7 +64,7 @@
                             <div class="control-group">
                                 <label class="control-label text-bold" for="email"><fmt:message key="prop.email"/></label>
                                 <div class="controls">
-                                    <input type="text" id="email" name="email" value="${admin.email}" maxlength="20"/>
+                                    <input type="text" id="email" name="email" value="${admin.email}" maxlength="20" rel="popover" data-content="<fmt:message key="para.email"/>"/>
                                 </div>
                             </div>
                             <div class="control-group">

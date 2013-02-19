@@ -1,3 +1,5 @@
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../inc/header.inc.jsp" %>
 <%@ include file="../inc/sider.inc.jsp" %>
@@ -27,21 +29,23 @@
                                 <tr>
                                     <td>
                                         <label><fmt:message key="prop.name"/></label><br>
-                                        <input type="text" class="input-block-level" name="name" value="${param.name}"/>
+                                        <input type="text" class="input-block-level" name="name" value="${params.name}"/>
                                     </td>
                                     <td>
                                         <label><fmt:message key="prop.truename"/></label><br>
-                                        <input type="text" class="input-block-level" name="trueName" value="${param.trueName}"/>
+                                        <input type="text" class="input-block-level" name="trueName" value="${params.trueName}"/>
                                     </td>
                                     <td>
                                         <label><fmt:message key="prop.email"/></label><br>
-                                        <input type="text" class="input-block-level" name="email" value="${param.email}"/>
+                                        <input type="text" class="input-block-level" name="email" value="${params.email}"/>
                                     </td>
                                     <td>
                                         <label><fmt:message key="entity.role"/></label><br>
-                                        <select class="input-block-level" id="roleIds" name="roleIds" size="1">
-                                            <option value="1">Administrator</option>
-                                            <option value="2">Guest</option>
+                                        <select name="roleId" class="input-block-level">
+                                            <option value=""><fmt:message key="option.select"/></option>
+                                            <c:forEach items="${roles}" var="role">
+                                                <option value="${role.id}" <c:if test="${role.id == params.roleId}">selected="selected"</c:if>>${role.name}</option>
+                                            </c:forEach>
                                         </select>
                                     </td>
                                 </tr>
